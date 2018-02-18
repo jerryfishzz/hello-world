@@ -1,0 +1,97 @@
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+.promo {
+  margin-bottom: 0;
+  font-style: italic;
+  padding: 10px;
+  background-color: #ff4020;
+  border-bottom: 5px solid #c00;
+}
+
+.parent {
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 50px 0;
+  padding: 20px;
+}
+
+.gh-fork {
+  position: fixed;
+  top: 0;
+  right: 0;
+  border: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-basis: 50%;
+  background-color: #942A57;
+  flex-flow: row wrap;
+}
+.container {
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 100%;
+  min-height: 150px;
+  min-width: 500px;
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+.container:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.container div,
+.gu-mirror {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: opacity 0.4s ease-in-out;
+}
+.container div {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.gu-mirror {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+.container .ex-moved {
+  background-color: #e74c3c;
+}
+.container.ex-over {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.handle {
+  padding: 0 5px;
+  margin-right: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: move;
+}
+nested-repeat-example .container span {
+  display: block;
+  padding: 8px;
+}
+.container.master {
+    background-color:rgba(155,155,155,1);
+    color: white;
+}
+
+.Z {
+  width: 75px;
+  height: 125px;
+  background-color: floralwhite;
+}
+
+.mywork {
+  background-color: aquamarine;
+  flex-basis: 50%;
+}
