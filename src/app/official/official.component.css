@@ -140,7 +140,8 @@ button:hover {
 
 /* dragula-specific example page styles */
 .wrapper {
-  display: table;
+  display: flex;
+  /* display: table; */
   /* flex-basis: 50%; */
 }
 .container {
