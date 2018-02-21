@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { KanbanComponent } from './components/kanban/kanban.component';
@@ -34,7 +35,8 @@ import { RouterModule } from '@angular/router';
       { path: 'kanban/addcard/:id', component: CardDetailComponent },
       { path: 'kanban/card-detail/:id', component: CardDetailComponent }     
     ]),
-    FormsModule
+    FormsModule,
+    DragulaModule
   ],
   providers: [KanbanService, BoardService, CardService, ColumnService],
   bootstrap: [AppComponent]

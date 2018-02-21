@@ -1,6 +1,6 @@
 <div style="color:red">Card</div>
 <a [routerLink]="['/kanban/addcard', columnEntityId]"  *ngIf="!reserved">Add</a>
-<div class="card-container" *ngFor="let card of cards">
+<div class="card-container" *ngFor="let card of cards" [dragula]='"card-bag"'>
   <div class="kanban-card" *ngIf="columnEntityId === card.columnEntityId">
     <div>ID: {{ card.cardId }}</div>
     <div>Name: <a [routerLink]="['/kanban/card-detail', card.cardId]">{{ card.cardName }}</a></div>
