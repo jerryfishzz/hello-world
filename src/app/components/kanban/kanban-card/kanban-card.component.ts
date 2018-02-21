@@ -54,24 +54,40 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }
 
+  private hasClass(el: any, name: string) {
+    return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
+  }
+
+  private addClass(el: any, name: string) {
+    if (!this.hasClass(el, name)) {
+      el.className = el.className ? [el.className, name].join(' ') : name;
+    }
+  }
+
+  private removeClass(el: any, name: string) {
+    if (this.hasClass(el, name)) {
+      el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
+    }
+  }
+
   private onDrag(args) {
     let [e, el] = args;
-    // do something
+    this.removeClass(e, 'ex-moved');
   }
-  
+
   private onDrop(args) {
     let [e, el] = args;
-    // do something
+    this.addClass(e, 'ex-moved');
   }
-  
+
   private onOver(args) {
     let [e, el, container] = args;
-    // do something
+    this.addClass(el, 'ex-over');
   }
-  
+
   private onOut(args) {
     let [e, el, container] = args;
-    // do something
+    this.removeClass(el, 'ex-over');
   }
 
   ngOnInit() {
