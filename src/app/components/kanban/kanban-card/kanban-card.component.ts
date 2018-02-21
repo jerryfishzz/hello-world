@@ -28,6 +28,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   constructor(private _cardService: CardService, private _columnService: ColumnService, private _boardService: BoardService, private dragulaService: DragulaService) { 
     dragulaService.drag.subscribe((value) => {
       console.log(`drag: ${value[0]}`);
+      console.log(value);
       this.onDrag(value.slice(1));
     });
     dragulaService.drop.subscribe((value) => {
