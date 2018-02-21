@@ -8,29 +8,42 @@ import { DragulaService } from 'ng2-dragula';
 })
 export class OfficialComponent implements OnInit {
 
+  public many: Array<string> = ['The', 'possibilities', 'are', 'endless!'];
+  public many2: Array<string> = ['Explore', 'them'];
+
   constructor(private dragulaService: DragulaService) {
     dragulaService.drag.subscribe((value) => {
-      console.log(`drag: ${value[0]}`);  // bag name
-      console.log(value);  
-      console.log(value[1]);  // self div
-      console.log(value[2]);  // parent div
+      // console.log(`drag: ${value[0]}`);  // bag name
+      // console.log(value);  
+      // console.log(value[1]);  // self div
+      // console.log(value[2]);  // parent div
       this.onDrag(value.slice(1));
     });
     dragulaService.drop.subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
+      // console.log(`drop: ${value[0]}`);
       this.onDrop(value.slice(1));
     });
     dragulaService.over.subscribe((value) => {
-      console.log(`over: ${value[0]}`);
+      // console.log(`over: ${value[0]}`);
       this.onOver(value.slice(1));
     });
     dragulaService.out.subscribe((value) => {
-      console.log(`out: ${value[0]}`);
+      // console.log(`out: ${value[0]}`);
       this.onOut(value.slice(1));
     });
 
     dragulaService.setOptions('first-bag', {
       revertOnSpill: true
+    });
+
+    dragulaService.dropModel.subscribe((value) => {
+      console.log(`drop: ${value[0]}`);
+      console.log(value);
+      this.onDropModel(value.slice(1));
+    });
+    dragulaService.removeModel.subscribe((value) => {
+      console.log(`remove: ${value[0]}`);
+      this.onRemoveModel(value.slice(1));
     });
   }
 
@@ -39,6 +52,7 @@ export class OfficialComponent implements OnInit {
   }
 
   private addClass(el: any, name: string) {
+    console.log("add");
     if (!this.hasClass(el, name)) {
       el.className = el.className ? [el.className, name].join(' ') : name;
     }
@@ -52,6 +66,8 @@ export class OfficialComponent implements OnInit {
 
   private onDrag(args) {
     let [e, el] = args;
+    console.log(e);
+    console.log(el);
     this.removeClass(e, 'ex-moved');
   }
 
@@ -68,6 +84,18 @@ export class OfficialComponent implements OnInit {
   private onOut(args) {
     let [e, el, container] = args;
     this.removeClass(el, 'ex-over');
+  }
+
+
+  private onDropModel(args) {
+    let [e, target, source] = args;
+    // do something else
+    this.addClass(e, 'ex-moved');
+  }
+
+  private onRemoveModel(args) {
+    let [el, source] = args;
+    // do something else
   }
 
   ngOnInit() {
