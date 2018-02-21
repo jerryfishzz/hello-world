@@ -5,6 +5,7 @@ import { IColumn } from '../../../service/Data/Kanban/Column/Model/IColumn';
 import { CardService } from '../../../service/Data/Kanban/Card/card.service';
 import { ColumnService } from '../../../service/Data/Kanban/Column/column.service';
 import { BoardService } from '../../../service/Data/Kanban/Board/board.service';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'kanban-card',
@@ -24,7 +25,24 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   @Input() columnEntityId: string;  // The id of the direct parent column of cards
   @Input() reserved: boolean;  // The mark to identify if a column is idle or archive, or not.  True for idle and archive, false for others.
 
-  constructor(private _cardService: CardService, private _columnService: ColumnService, private _boardService: BoardService) { }
+  constructor(private _cardService: CardService, private _columnService: ColumnService, private _boardService: BoardService, private dragulaService: DragulaService) { 
+    dragulaService.drag.subscribe((value) => {
+      console.log(`drag: ${value[0]}`);
+      this.onDrag(value.slice(1));
+    });
+    dragulaService.drop.subscribe((value) => {
+      console.log(`drop: ${value[0]}`);
+      this.onDrop(value.slice(1));
+    });
+    dragulaService.over.subscribe((value) => {
+      console.log(`over: ${value[0]}`);
+      this.onOver(value.slice(1));
+    });
+    dragulaService.out.subscribe((value) => {
+      console.log(`out: ${value[0]}`);
+      this.onOut(value.slice(1));
+    });
+  }
 
   /**
    * 
@@ -34,6 +52,26 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
    */
   moveToOtherColumn(cardId: string, cardColumnEntityId: string, destinationColumnId: string): void {
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
+  }
+
+  private onDrag(args) {
+    let [e, el] = args;
+    // do something
+  }
+  
+  private onDrop(args) {
+    let [e, el] = args;
+    // do something
+  }
+  
+  private onOver(args) {
+    let [e, el, container] = args;
+    // do something
+  }
+  
+  private onOut(args) {
+    let [e, el, container] = args;
+    // do something
   }
 
   ngOnInit() {
