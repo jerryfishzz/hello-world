@@ -1,0 +1,14 @@
+.kanban-board {
+  height: 800px;
+  border: solid 2px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.board-content {
+  display: flex;
+  background-color: antiquewhite;
+  flex-direction: column;
+}

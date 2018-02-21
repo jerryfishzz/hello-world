@@ -1,0 +1,70 @@
+<div style="color:red">Column <button (click)="addColumn()"  style="color:black">Add</button></div>
+<div class="column-container">
+  <ng-container *ngFor="let column of columns">
+    <ng-container *ngIf="(boardEntityId === column.boardEntityId) && (!column.columnEntityId)">
+
+      <!-- Idle column -->
+      <div class="kanban-column idle-column" *ngIf="idleColumn === column.columnId">
+        <div class="column-description">
+          <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
+        </div>
+
+        <kanban-card class="column-content" [columnEntityId]="column.columnId" [reserved]="true" *ngIf="column.cardOnly"></kanban-card>
+      </div>
+
+      <!-- Portfolio or project columns -->
+      <div class="kanban-column" *ngIf="(idleColumn !== column.columnId) && (archiveColumn !== column.columnId)">
+
+        <div class="column-description">
+          <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
+
+          <button *ngIf="!column.cardOnly && !column.subColumns.length" (click)="simplifyColumn(column.columnId)">Card Only</button>
+          <button *ngIf="!column.cardOnly" (click)="addSubColumn(column.columnId)">More Columns</button>
+          <button *ngIf="column.cardOnly && !column.directCards.length" (click)="initializeColumn(column.columnId)">Initialize</button>
+        </div>
+
+        <!-- Simple columns -->
+        <kanban-card class="column-content" [columnEntityId]="column.columnId" [reserved]="false" *ngIf="column.cardOnly"></kanban-card>
+
+        <!-- Complex columns -->
+        <div class="column-container" *ngIf="!column.cardOnly">
+          <ng-container *ngFor="let subColumn of subColumns">
+            <div class="kanban-column" *ngIf="subColumn.columnEntityId === column.columnId">
+              <div class="column-description">
+                <column-detail [columnName]="subColumn.columnName" [columnId]="subColumn.columnId"></column-detail>
+              </div>
+              <kanban-card class="column-content" [columnEntityId]="subColumn.columnId" [reserved]="false" *ngIf="subColumn.cardOnly"></kanban-card>
+
+              <!-- Inner move buttons -->
+              <ng-container *ngFor="let columnToMove of columnsForColumnToMove">
+                <button *ngIf="subColumn.columnEntityId !== columnToMove.columnId" (click)="moveToOtherColumn(subColumn.columnId, subColumn.columnEntityId, columnToMove.columnId)">{{ columnToMove.columnName }}</button>
+              </ng-container>
+              <button (click)="freeColumn(subColumn.columnId, subColumn.columnEntityId)">Free</button>
+
+              <button style="color:red" (click)="deleteColumn(subColumn.columnId, subColumn.directCards.length, subColumn.columnEntityId)">Delete</button>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Outer move buttons -->
+        <ng-container *ngIf="!column.subColumns.length">
+          <ng-container *ngFor="let columnToMove of columnsForColumnToMove">
+            <button *ngIf="column.columnId !== columnToMove.columnId" (click)="moveToOtherColumn(column.columnId, '', columnToMove.columnId)">{{ columnToMove.columnName }}</button>
+          </ng-container>
+        </ng-container>
+
+        <!-- Outer delete -->
+        <button style="color:red" *ngIf="!column.subColumns.length" (click)="deleteColumn(column.columnId, column.directCards.length)">Delete</button>
+      </div>
+
+      <!-- Idle column -->
+      <div class="kanban-column archive-column" *ngIf="archiveColumn === column.columnId">
+        <div class="column-description">
+          <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
+        </div>
+
+        <kanban-card class="column-content" [columnEntityId]="column.columnId" [reserved]="true" *ngIf="column.cardOnly"></kanban-card>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

@@ -1,0 +1,21 @@
+<div style="color:red">Card</div>
+<a [routerLink]="['/kanban/addcard', columnEntityId]"  *ngIf="!reserved">Add</a>
+<div class="card-container" *ngFor="let card of cards">
+  <div class="kanban-card" *ngIf="columnEntityId === card.columnEntityId">
+    <div>ID: {{ card.cardId }}</div>
+    <div>Name: <a [routerLink]="['/kanban/card-detail', card.cardId]">{{ card.cardName }}</a></div>
+    <div>Type: {{ card.cardType }}</div>
+    <div>Column ID: {{ card.columnEntityId }}</div>
+    <div>Board ID: {{ card.boardEntityId }}</div>
+    <div>Board Type: {{ card.boardEntityType }}</div>
+    <div>Comments: {{ card.comments }}</div>
+    <div>In Archive: {{ card.inArchive }}</div>
+
+    <!-- Columns that can be moved to -->
+    <ng-container *ngFor="let column of columnsForCardsToMove">
+      <div *ngIf="card.columnEntityId !== column.columnId">
+        <button (click)="moveToOtherColumn(card.cardId, card.columnEntityId, column.columnId)">{{ column.columnName }}</button>
+      </div>
+    </ng-container>
+  </div>
+</div>

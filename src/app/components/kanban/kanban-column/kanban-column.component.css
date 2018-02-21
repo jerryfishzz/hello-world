@@ -1,0 +1,28 @@
+.column-container {
+  display: flex;
+  margin: 10px;
+}
+
+.kanban-column {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  border: solid 1px;
+  padding: 10px;
+  margin: 10px;
+  /* flex-grow: 1; */
+}
+
+.column-content {
+  flex-grow: 1;
+  background-color: aqua;
+}
+
+.archive-column {
+  order: 99;
+  margin-left: auto;
+}
+
+.idle-column {
+  order: -1;
+}

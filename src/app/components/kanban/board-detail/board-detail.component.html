@@ -1,0 +1,13 @@
+<div>
+  Board Id: <b>{{ displayingBoard.boardId }}</b><br />
+  Board Name: {{ displayingBoard.boardName }}<br />
+  Board Type: {{ displayingBoard.boardType }}<br />
+  Idle Column: {{ displayingBoard.idleColumn }}<br />
+  Direct Columns:
+  <ng-container *ngIf="displayingBoard.directColumns.length">
+    <ng-container *ngFor="let directColumn of displayingBoard.directColumns">{{ directColumn }} </ng-container>
+  </ng-container>
+  <ng-container *ngIf="!displayingBoard.directColumns.length">No Columns</ng-container><br />
+  Archive Column: {{ displayingBoard.archiveColumn }}<br />
+  Entity Id: {{ displayingBoard.entityId }}<br /><br />
+</div>

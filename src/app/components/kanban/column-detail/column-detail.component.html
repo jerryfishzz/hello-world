@@ -1,0 +1,18 @@
+<ng-container *ngIf="show">{{ columnName }}</ng-container>
+<ng-container *ngIf="!show">
+  <input type="text" value="{{ columnName }}" [(ngModel)]="newName" />
+</ng-container>
+<ng-container>/ {{ columnId }}</ng-container><br />
+<button [disabled]="!show" (click)="show = !show">Edit</button>
+<button [disabled]="show" (click)="updateColumnDetail(columnId)">Save</button><br />
+  Direct Cards:
+<ng-container *ngIf="theColumn.directCards.length">
+  <ng-container *ngFor="let directCard of theColumn.directCards">{{ directCard }} </ng-container>
+</ng-container>
+<ng-container *ngIf="!theColumn.directCards.length">No Cards</ng-container><br />
+  Sub-columns:
+<ng-container *ngIf="theColumn.subColumns.length">
+  <ng-container *ngFor="let subColumn of theColumn.subColumns">{{ subColumn }} </ng-container>
+</ng-container>
+<ng-container *ngIf="!theColumn.subColumns.length">No Columns</ng-container>
+<br /><br />

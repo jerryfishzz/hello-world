@@ -1,0 +1,16 @@
+<div class="kanban-board">
+  <div style="color:red">
+    Board
+    <button (click)="addBoard()" style="color:black">Create</button><br />
+    <ng-container *ngIf="boards">
+      <ng-container *ngFor="let board of boards">
+        <button (click)="showBoard(board.boardId)" style="color:black">{{ board.boardName }}</button>
+      </ng-container>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="displayingBoard">
+    <board-detail [displayingBoard]="displayingBoard"></board-detail>
+    <kanban-column class="board-content" [boardEntityId]="displayingBoard.boardId" [idleColumn]="displayingBoard.idleColumn" [archiveColumn]="displayingBoard.archiveColumn"></kanban-column>
+    <button (click)="deleteBoard()">Delete</button>
+  </ng-container>
+</div>
