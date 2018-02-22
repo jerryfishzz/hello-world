@@ -1,3 +1,19 @@
-<p>
-  card-detail works!
-</p>
+<div>
+    URL: {{ url }}<br /><br />
+    ID: {{ cardId }}<br />
+    Name: <input type="text" value="{{ cardName }}" [(ngModel)]="cardName"><br />
+    Comments: <input type="text" value="{{ comments }}" [(ngModel)]="comments"><br /><br />
+  
+    Type: {{ cardType }}<br />
+    Column Entity ID: {{ columnEntityId }}<br />
+    Board Entity ID: {{ boardEntityId }}<br />
+    Board Entity Type: {{ boardEntityType }}<br />
+    In Archive: {{ inArchive }}<br /><br />
+  
+    <button *ngIf="isAddCard(this.url)" (click)="addCard()">Add</button>  <!-- Show in add page -->
+    <button *ngIf="!isAddCard(this.url)" (click)="updateCard()">Update</button>  <!-- Show in update page -->
+    <button *ngIf="!isAddCard(this.url) && inArchive" (click)="deleteCard()">Delete</button>  <!-- Cards in archive can be deleted -->
+    <button *ngIf="!isAddCard(this.url) && !inArchive" (click)="archiveCard()">Archive</button>  <!-- Cards not in archive can only be archived -->
+    <button (click)='onBack()'>Back</button>  
+  </div>
+  

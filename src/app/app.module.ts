@@ -32,8 +32,10 @@ import { RouterModule } from '@angular/router';
   imports: [
     BrowserModule,
     RouterModule.forRoot([
+      { path: 'kanban', component: KanbanBoardComponent},
       { path: 'kanban/addcard/:id', component: CardDetailComponent },
-      { path: 'kanban/card-detail/:id', component: CardDetailComponent }     
+      { path: 'kanban/card-detail/:id', component: CardDetailComponent },
+      { path: '', redirectTo: 'kanban', pathMatch: 'full'}     
     ]),
     FormsModule,
     DragulaModule

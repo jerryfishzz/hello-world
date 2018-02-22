@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-kanban',
+  selector: 'kanban',
   templateUrl: './kanban.component.html',
   styleUrls: ['./kanban.component.css']
 })

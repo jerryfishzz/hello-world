@@ -10,7 +10,7 @@ import { ColumnFactory } from '../../../service/Data/Kanban/Column/Factory/Colum
 import { IColumn } from '../../../service/Data/Kanban/Column/Model/IColumn';
 
 @Component({
-  selector: 'kanban-board',
+  // selector: 'kanban-board',
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.css']
 })

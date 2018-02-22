@@ -30,7 +30,9 @@ export class CardDetailComponent implements OnInit {
    * @param url  URL of the opening page
    */
   isAddCard(url: string): boolean {
+    // console.log("is");
     let re = /^\/kanban\/addcard\/[A-Za-z0-9]+/i;
+    console.log(re.test(url));
     return re.test(url);
   }
 
@@ -70,10 +72,15 @@ export class CardDetailComponent implements OnInit {
 
     if (this.isAddCard(url)) {
       this.cardId = this._kanbanService.generateId();
+      console.log(this.cardId);
       this.boardEntityId = this._boardService.displayingBoardState.boardId;
+      console.log(this.boardEntityId);
       this.boardEntityType = this._boardService.getBoard(this.boardEntityId).boardType;
+      console.log(this.boardEntityType);
       this.cardType = this.boardEntityType == "portfolio" ? "project" : "task";
+      console.log(this.cardType)
       this.columnEntityId = this.url.split("/")[3];
+      console.log(this.columnEntityId);
       this.inArchive = false;
     } else {
       this._route.params.subscribe((params: Params) => {
