@@ -23,10 +23,18 @@
   </div> -->
 
   <div class='container' [dragula]='"another-bag"' [dragulaModel]='many'>
-    <div *ngFor='let text of many' [innerHtml]='text'></div>
+  <!-- <div class='container' [dragula]='"another-bag"'> -->
+    <div *ngFor='let text of many' [innerHtml]='text.name'></div>
   </div>
   <div class='container' [dragula]='"another-bag"' [dragulaModel]='many2'>
-    <div *ngFor='let text of many2' [innerHtml]='text'></div>
+  <!-- <div class='container' [dragula]='"another-bag"'> -->
+    <ng-container *ngFor='let text of many2'>
+      <div [innerHtml]='text.name' *ngIf="text.name.length > 4"></div>
+    </ng-container>
   </div>
+
+
+  <button (click)="showMany()">show many</button>
+  <button (click)="showMany2()">show many2</button>
 
 </div>
