@@ -1,0 +1,31 @@
+.card {
+  display: flex;
+  margin: 10px;
+  flex-direction: column;
+  background-color: aqua;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px;
+  padding: 5px;
+  margin: 5px;
+  background-color: chartreuse;
+}
+
+.content-border {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin: 5px;
+  background-color: aliceblue;
+}
+
+.card-box {
+  display:flex;
+  flex-direction: column;
+  border: solid 2px;
+  text-align: center;
+  margin: 10px;
+}

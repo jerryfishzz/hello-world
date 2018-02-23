@@ -5,13 +5,19 @@ import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { AppComponent } from './app.component';
 import { DragulaComponent } from './dragula/dragula.component';
 import { OfficialComponent } from './official/official.component';
+import { ColumnComponent } from './column/column.component';
+import { BoardComponent } from './board/board.component';
+import { CardComponent } from './card/card.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     DragulaComponent,
-    OfficialComponent
+    OfficialComponent,
+    ColumnComponent,
+    BoardComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,

@@ -45,7 +45,7 @@ export class OfficialComponent implements OnInit {
       this.onOut(value.slice(1));
     });
 
-    dragulaService.setOptions('first-bag', {
+    dragulaService.setOptions('another-bag', {
       revertOnSpill: true
     });
 

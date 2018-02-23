@@ -1,0 +1,35 @@
+<div class="card-box">
+
+  <!-- <div class="card">
+    <p>
+      card works!
+    </p>
+    <div class="content-border" [dragula]='"card-bag"' [dragulaModel]='cards1'>
+      <div class="card-content" *ngFor="let card of cards1">{{ card.name }}</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p>
+      card works!
+    </p>
+    <div class="content-border" [dragula]='"card-bag"' [dragulaModel]='cards2'>
+      <div class="card-content" *ngFor="let card of cards2">{{ card.name }}</div>
+    </div>
+  </div> -->
+
+  <div class="card">
+    <p>
+      card works!
+    </p>
+    <div class="content-border" [dragula]='"card-bag"' [dragulaModel]='cardsForColumn' [attr.item-id]="column">
+      <div class="card-content" [attr.item-id]="card.id" *ngFor="let card of cardsForColumn">{{ card.name }}</div>
+    </div>
+  </div>
+
+  <!-- <button (click)="showCards1()">show cards1</button>
+  <button (click)="showCards2()">show cards2</button> -->
+
+  <button (click)="showCardsForColumn()">show cards for column</button>
+
+</div>
