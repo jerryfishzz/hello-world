@@ -64,6 +64,11 @@ export class CardDetailComponent implements OnInit {
     this._cardService.moveToOtherColumn(this.cardId, this.columnEntityId, destinationColumn);
     this.onBack();
   }
+  
+  onBack(): void {
+    console.log(this._boardService.displayingBoardState);
+    this._router.navigate(['/kanban']);
+  }
 
   ngOnInit() {
     let url = this._router.url;
@@ -97,10 +102,6 @@ export class CardDetailComponent implements OnInit {
         this.inArchive = theModifyingCard.inArchive;
       });
     }
-  }
-
-  onBack(): void {
-    this._router.navigate(['/kanban']);
   }
 
 }

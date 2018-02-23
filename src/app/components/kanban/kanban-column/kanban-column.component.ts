@@ -8,6 +8,8 @@ import { CardService } from '../../../service/Data/Kanban/Card/card.service';
 import { ColumnFactory } from '../../../service/Data/Kanban/Column/Factory/ColumnFactory';
 import { ICard } from '../../../service/Data/Kanban/Card/Model/ICard';
 import { DragulaService } from 'ng2-dragula';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'kanban-column',
@@ -22,15 +24,21 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
 
   columnSubscription: Subscription;
   displayingBoardSubscription: Subscription;
+  private destroy$ = new Subject();
   
   @Input() boardEntityId: string;  // Parent board id
   @Input() idleColumn: string;  // Idle column id of the parent board 
   @Input() archiveColumn: string;  // Archive column id of the parent board 
 
-  constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService, private dragulaService: DragulaService) { 
-    dragulaService.setOptions('card-bag', {
-      revertOnSpill: true
-    });
+  constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService, private _dragulaService: DragulaService) { 
+    // _dragulaService.dropModel.asObservable().takeUntil(this.destroy$).subscribe((value) => {
+    //   console.log(`drop: ${value[0]}`);
+    //   this.onDropModel(value.slice(1));
+    // });
+
+    // _dragulaService.setOptions('card-bag', {
+    //   revertOnSpill: true
+    // });
   }
 
   addColumn(): void {
@@ -135,6 +143,20 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     }
   }
 
+  // private onDropModel(args) {
+  //   let [el, target, source] = args;
+  //   console.log(el.getAttribute('itemId'));
+  //   console.log(source.getAttribute('itemId'));
+  //   console.log(target.getAttribute('itemId'));
+
+  //   let cardId = el.getAttribute('itemId');
+  //   let cardColumnEntityId = source.getAttribute('itemId');
+  //   let destinationColumnId = target.getAttribute('itemId');
+
+  //   // this.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
+  //   this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
+  // }
+
   ngOnInit() {
     this.columnSubscription = this._columnService.columns$.subscribe(columns => {
       this.columns = columns;
@@ -160,6 +182,8 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.columnSubscription.unsubscribe();
     this.displayingBoardSubscription.unsubscribe();
+
+    // this.destroy$.next();
   }
 
 }

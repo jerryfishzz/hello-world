@@ -28,10 +28,10 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
 
   constructor(private _cardService: CardService, private _columnService: ColumnService, private _boardService: BoardService, private dragulaService: DragulaService) { 
 
-    dragulaService.dropModel.subscribe((value) => {
-      // console.log(`drop: ${value[0]}`);
-      this.onDropModel(value.slice(1));
-    });
+    // dragulaService.dropModel.subscribe((value) => {
+    //   console.log(`drop: ${value[0]}`);
+    //   this.onDropModel(value.slice(1));
+    // });
   }
 
   /**
@@ -44,18 +44,18 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }
 
-  private onDropModel(args) {
-    let [el, target, source] = args;
-    // console.log(el.getAttribute('itemId'));
-    // console.log(source.getAttribute('itemId'));
-    // console.log(target.getAttribute('itemId'));
+  // private onDropModel(args) {
+  //   let [el, target, source] = args;
+  //   console.log(el.getAttribute('itemId'));
+  //   console.log(source.getAttribute('itemId'));
+  //   console.log(target.getAttribute('itemId'));
 
-    let cardId = el.getAttribute('itemId');
-    let cardColumnEntityId = source.getAttribute('itemId');
-    let destinationColumnId = target.getAttribute('itemId');
+  //   let cardId = el.getAttribute('itemId');
+  //   let cardColumnEntityId = source.getAttribute('itemId');
+  //   let destinationColumnId = target.getAttribute('itemId');
 
-    this.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
-  }
+  //   this.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
+  // }
 
   ngOnInit() {
     this.cardSubscription = this._cardService.cards$.subscribe(cards => this.cards = cards);
