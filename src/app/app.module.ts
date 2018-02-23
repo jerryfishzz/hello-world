@@ -8,6 +8,7 @@ import { OfficialComponent } from './official/official.component';
 import { ColumnComponent } from './column/column.component';
 import { BoardComponent } from './board/board.component';
 import { CardComponent } from './card/card.component';
+import { CardService } from './card/card.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { CardComponent } from './card/card.component';
     BrowserModule,
     DragulaModule
   ],
-  providers: [],
+  providers: [CardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

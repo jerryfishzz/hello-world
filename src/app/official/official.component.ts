@@ -25,32 +25,32 @@ export class OfficialComponent implements OnInit {
 
 
   constructor(private dragulaService: DragulaService) {
-    dragulaService.drag.subscribe((value) => {
-      console.log(`drag: ${value[0]}`);  // bag name
-      // console.log(value);  
-      // console.log(value[1]);  // self div
-      // console.log(value[2]);  // parent div
-      this.onDrag(value.slice(1));
-    });
-    dragulaService.drop.subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
-      this.onDrop(value.slice(1));
-    });
-    dragulaService.over.subscribe((value) => {
-      console.log(`over: ${value[0]}`);
-      this.onOver(value.slice(1));
-    });
-    dragulaService.out.subscribe((value) => {
-      console.log(`out: ${value[0]}`);
-      this.onOut(value.slice(1));
-    });
+    // dragulaService.drag.subscribe((value) => {
+    //   console.log(`drag: ${value[0]}`);  // bag name
+    //   // console.log(value);  
+    //   // console.log(value[1]);  // self div
+    //   // console.log(value[2]);  // parent div
+    //   this.onDrag(value.slice(1));
+    // });
+    // dragulaService.drop.subscribe((value) => {
+    //   console.log(`drop: ${value[0]}`);
+    //   this.onDrop(value.slice(1));
+    // });
+    // dragulaService.over.subscribe((value) => {
+    //   console.log(`over: ${value[0]}`);
+    //   this.onOver(value.slice(1));
+    // });
+    // dragulaService.out.subscribe((value) => {
+    //   console.log(`out: ${value[0]}`);
+    //   this.onOut(value.slice(1));
+    // });
 
-    dragulaService.setOptions('another-bag', {
-      revertOnSpill: true
-    });
+    // dragulaService.setOptions('another-bag', {
+    //   revertOnSpill: true
+    // });
 
     dragulaService.dropModel.subscribe((value) => {
-      // console.log(`drop: ${value[0]}`);
+      console.log(`drop model: ${value[0]}`);
       // console.log(value);
       this.onDropModel(value.slice(1));
     });
