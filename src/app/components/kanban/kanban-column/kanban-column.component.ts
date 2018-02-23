@@ -7,6 +7,7 @@ import { BoardService } from '../../../service/Data/Kanban/Board/board.service';
 import { CardService } from '../../../service/Data/Kanban/Card/card.service';
 import { ColumnFactory } from '../../../service/Data/Kanban/Column/Factory/ColumnFactory';
 import { ICard } from '../../../service/Data/Kanban/Card/Model/ICard';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'kanban-column',
@@ -26,7 +27,11 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   @Input() idleColumn: string;  // Idle column id of the parent board 
   @Input() archiveColumn: string;  // Archive column id of the parent board 
 
-  constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService) { }
+  constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService, private dragulaService: DragulaService) { 
+    dragulaService.setOptions('card-bag', {
+      revertOnSpill: true
+    });
+  }
 
   addColumn(): void {
     var columnFactory: ColumnFactory = new ColumnFactory();

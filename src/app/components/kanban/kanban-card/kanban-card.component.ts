@@ -21,27 +21,16 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   columnsForMovingSubscription: Subscription;
 
   newComments: string = "";
+  cardsForColumn: ICard[];
 
   @Input() columnEntityId: string;  // The id of the direct parent column of cards
   @Input() reserved: boolean;  // The mark to identify if a column is idle or archive, or not.  True for idle and archive, false for others.
 
   constructor(private _cardService: CardService, private _columnService: ColumnService, private _boardService: BoardService, private dragulaService: DragulaService) { 
-    dragulaService.drag.subscribe((value) => {
-      console.log(`drag: ${value[0]}`);
-      console.log(value);
-      this.onDrag(value.slice(1));
-    });
-    dragulaService.drop.subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
-      this.onDrop(value.slice(1));
-    });
-    dragulaService.over.subscribe((value) => {
-      console.log(`over: ${value[0]}`);
-      this.onOver(value.slice(1));
-    });
-    dragulaService.out.subscribe((value) => {
-      console.log(`out: ${value[0]}`);
-      this.onOut(value.slice(1));
+
+    dragulaService.dropModel.subscribe((value) => {
+      // console.log(`drop: ${value[0]}`);
+      this.onDropModel(value.slice(1));
     });
   }
 
@@ -55,40 +44,17 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }
 
-  private hasClass(el: any, name: string) {
-    return new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)').test(el.className);
-  }
+  private onDropModel(args) {
+    let [el, target, source] = args;
+    // console.log(el.getAttribute('itemId'));
+    // console.log(source.getAttribute('itemId'));
+    // console.log(target.getAttribute('itemId'));
 
-  private addClass(el: any, name: string) {
-    if (!this.hasClass(el, name)) {
-      el.className = el.className ? [el.className, name].join(' ') : name;
-    }
-  }
+    let cardId = el.getAttribute('itemId');
+    let cardColumnEntityId = source.getAttribute('itemId');
+    let destinationColumnId = target.getAttribute('itemId');
 
-  private removeClass(el: any, name: string) {
-    if (this.hasClass(el, name)) {
-      el.className = el.className.replace(new RegExp('(?:^|\\s+)' + name + '(?:\\s+|$)', 'g'), '');
-    }
-  }
-
-  private onDrag(args) {
-    let [e, el] = args;
-    this.removeClass(e, 'ex-moved');
-  }
-
-  private onDrop(args) {
-    let [e, el] = args;
-    this.addClass(e, 'ex-moved');
-  }
-
-  private onOver(args) {
-    let [e, el, container] = args;
-    this.addClass(el, 'ex-over');
-  }
-
-  private onOut(args) {
-    let [e, el, container] = args;
-    this.removeClass(el, 'ex-over');
+    this.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }
 
   ngOnInit() {
@@ -100,6 +66,8 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
      * So columnsForCardsToMove will update along with the board switching.
      */
     this.columnsForMovingSubscription = this._columnService.columns$.subscribe(columns => this.columnsForCardsToMove = columns.filter(column => column.cardOnly === true && column.boardEntityId === this._boardService.displayingBoardState.boardId));
+
+    this.cardsForColumn = this.cards.filter(card => card.columnEntityId == this.columnEntityId);
   }
 
   ngOnDestroy() {
