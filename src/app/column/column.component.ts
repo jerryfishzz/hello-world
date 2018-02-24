@@ -16,7 +16,7 @@ export class ColumnComponent implements OnInit, OnDestroy {
   constructor(private dragulaService: DragulaService, private _cardService: CardService) {
 
     this.dragulaService.dropModel.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
+      console.log(`drop model: ${value[0]}`);
       this.onDropModel(value.slice(1));
     });
 

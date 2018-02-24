@@ -41,6 +41,11 @@ export class CardComponent implements OnInit, OnDestroy {
 
   constructor(private dragulaService: DragulaService, private _cardService: CardService) {
 
+    dragulaService.drop.subscribe((value) => {
+      console.log(`drop: ${value[0]}`);
+      // this.onDrop(value.slice(1));
+    });
+
     // this.dragulaService.dropModel.asObservable().takeUntil(this.destroy$).subscribe((value) => {
     //   console.log(`drop: ${value[0]}`);
     //   this.onDropModel(value.slice(1));
@@ -70,21 +75,21 @@ export class CardComponent implements OnInit, OnDestroy {
     console.log(this.cardsForColumn);
   }
 
-  private onDropModel(args) {
-    let [el, target, source] = args;
-    console.log(el.getAttribute('item-id'));
-    console.log(source.getAttribute('item-id'));
-    console.log(target.getAttribute('item-id'));
+  // private onDropModel(args) {
+  //   let [el, target, source] = args;
+  //   console.log(el.getAttribute('item-id'));
+  //   console.log(source.getAttribute('item-id'));
+  //   console.log(target.getAttribute('item-id'));
 
-    let cardId = el.getAttribute('item-id');
-    let targetParty = target.getAttribute('item-id');
+  //   let cardId = el.getAttribute('item-id');
+  //   let targetParty = target.getAttribute('item-id');
 
-    this._cardService.updateParty(cardId, targetParty);
-  }
+  //   this._cardService.updateParty(cardId, targetParty);
+  // }
 
-  private onRemoveModel(args) {
-    let [el, source] = args;
-  }
+  // private onRemoveModel(args) {
+  //   let [el, source] = args;
+  // }
 
   ngOnInit() {
     this.cardsForColumn = this._cardService.cards.filter(card => card.party == this.column);
