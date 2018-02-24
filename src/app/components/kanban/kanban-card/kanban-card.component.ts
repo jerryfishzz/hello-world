@@ -26,13 +26,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
   @Input() columnEntityId: string;  // The id of the direct parent column of cards
   @Input() reserved: boolean;  // The mark to identify if a column is idle or archive, or not.  True for idle and archive, false for others.
 
-  constructor(private _cardService: CardService, private _columnService: ColumnService, private _boardService: BoardService, private dragulaService: DragulaService) { 
-
-    // dragulaService.dropModel.subscribe((value) => {
-    //   console.log(`drop: ${value[0]}`);
-    //   this.onDropModel(value.slice(1));
-    // });
-  }
+  constructor(private _cardService: CardService, private _columnService: ColumnService, private _boardService: BoardService) { }
 
   /**
    * 
@@ -44,18 +38,9 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }
 
-  // private onDropModel(args) {
-  //   let [el, target, source] = args;
-  //   console.log(el.getAttribute('itemId'));
-  //   console.log(source.getAttribute('itemId'));
-  //   console.log(target.getAttribute('itemId'));
-
-  //   let cardId = el.getAttribute('itemId');
-  //   let cardColumnEntityId = source.getAttribute('itemId');
-  //   let destinationColumnId = target.getAttribute('itemId');
-
-  //   this.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
-  // }
+  showCards(): void {
+    console.log(this.cardsForColumn);
+  }
 
   ngOnInit() {
     this.cardSubscription = this._cardService.cards$.subscribe(cards => this.cards = cards);
@@ -68,6 +53,8 @@ export class KanbanCardComponent implements OnInit, OnDestroy {
     this.columnsForMovingSubscription = this._columnService.columns$.subscribe(columns => this.columnsForCardsToMove = columns.filter(column => column.cardOnly === true && column.boardEntityId === this._boardService.displayingBoardState.boardId));
 
     this.cardsForColumn = this.cards.filter(card => card.columnEntityId == this.columnEntityId);
+
+    
   }
 
   ngOnDestroy() {

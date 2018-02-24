@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IColumn } from './Model/IColumn';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BoardService } from '../Board/board.service';
+import { ICard } from '../Card/Model/ICard';
 
 @Injectable()
 export class ColumnService {
@@ -270,6 +271,15 @@ export class ColumnService {
   deleteColumnsByBoardEntityId(boardEntityId: string): void {
     this.columnState = this.columnState.filter(column => column.boardEntityId !== boardEntityId);
     this._columnSource.next(this.columnState);
+  }
+
+  updateDirectCards(cardsForColumn: ICard[]): string[] {
+    let columnId: string = cardsForColumn[0] ? cardsForColumn[0].columnEntityId : "";
+    
+    if(!columnId) return [];
+    return cardsForColumn.map(card => {
+      return card.cardId;
+    });
   }
 
 }

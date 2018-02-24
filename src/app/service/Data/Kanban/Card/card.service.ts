@@ -126,4 +126,10 @@ export class CardService {
     this._cardSource.next(this.cardState);
   }
 
+  getCardOrder(cardsForColumn: ICard[]): string[] {
+    return cardsForColumn.map(card => {
+      return card.cardId;
+    });
+  }
+
 }

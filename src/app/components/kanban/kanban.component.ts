@@ -14,7 +14,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
   constructor(private _dragulaService: DragulaService, private _cardService: CardService) {
     _dragulaService.dropModel.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
+      console.log(`drop model: ${value[0]}`);
       this.onDropModel(value.slice(1));
     });
 
