@@ -23,7 +23,7 @@ export class ColumnService {
       "columnName": "Doing",
       "columnEntityId": null,
       "cardOnly": true,
-      "directCards": ["51"],
+      "directCards": ["52", "51", "53"],
       "subColumns": [],
       "boardEntityId": "100",
       "boardEntityType": "project"

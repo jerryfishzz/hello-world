@@ -43,9 +43,9 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }
 
-  showCards(): void {
-    console.log(this.cardsForColumn);
-  }
+  // showCards(): void {
+  //   console.log(this.cardsForColumn);
+  // }
 
   ngOnInit() {
     this.cardSubscription = this._cardService.cards$.subscribe(cards => this.cards = cards);
@@ -57,8 +57,17 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
      */
     this.columnsForMovingSubscription = this._columnService.columns$.subscribe(columns => this.columnsForCardsToMove = columns.filter(column => column.cardOnly === true && column.boardEntityId === this._boardService.displayingBoardState.boardId));
 
-    this.cardsForColumn = this.cards.filter(card => card.columnEntityId == this.columnEntityId);
-
+    /**
+     * Use the order of directCards in the column to initialize cardsForColumn
+     */
+    this.cardsForColumn = [];
+    let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+    let directCards: string[] = theColumn.directCards;
+    if(directCards.length) {
+      for(let directCard of directCards) {
+        this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+      }
+    }
     
   }
 

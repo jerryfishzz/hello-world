@@ -23,6 +23,26 @@ export class CardService {
       "boardEntityType": "project",
       "comments": "Jump to 51.",
       "inArchive": false
+    },
+    {
+      "cardId": "52",
+      "cardName": "Card 2",
+      "cardType": "task",
+      "columnEntityId": "20",
+      "boardEntityId": "100",
+      "boardEntityType": "project",
+      "comments": "Jump to 52.",
+      "inArchive": false
+    },
+    {
+      "cardId": "53",
+      "cardName": "Card 3",
+      "cardType": "task",
+      "columnEntityId": "20",
+      "boardEntityId": "100",
+      "boardEntityType": "project",
+      "comments": "Jump to 53.",
+      "inArchive": false
     }
   ];
   
