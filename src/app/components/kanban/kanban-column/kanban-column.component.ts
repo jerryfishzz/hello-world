@@ -10,6 +10,7 @@ import { ICard } from '../../../service/Data/Kanban/Card/Model/ICard';
 import { DragulaService } from 'ng2-dragula';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'kanban-column',
@@ -141,6 +142,8 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     } else { // For outer delete, update its parent board.
       this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
     }
+
+    // this._router.navigate(['/kanban']);
   }
 
   // private onDropModel(args) {

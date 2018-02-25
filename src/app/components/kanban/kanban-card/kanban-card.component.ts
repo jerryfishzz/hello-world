@@ -47,6 +47,17 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
   //   console.log(this.cardsForColumn);
   // }
 
+  initializeCardsForColumn(): void {
+    this.cardsForColumn = [];
+    let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+    let directCards: string[] = theColumn.directCards;
+    if(directCards.length) {
+      for(let directCard of directCards) {
+        this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+      }
+    }
+  }
+
   ngOnInit() {
     this.cardSubscription = this._cardService.cards$.subscribe(cards => this.cards = cards);
     
@@ -60,14 +71,16 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
     /**
      * Use the order of directCards in the column to initialize cardsForColumn
      */
-    this.cardsForColumn = [];
-    let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-    let directCards: string[] = theColumn.directCards;
-    if(directCards.length) {
-      for(let directCard of directCards) {
-        this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
-      }
-    }
+    this.initializeCardsForColumn();
+
+    // this.cardsForColumn = [];
+    // let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+    // let directCards: string[] = theColumn.directCards;
+    // if(directCards.length) {
+    //   for(let directCard of directCards) {
+    //     this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+    //   }
+    // }
     
   }
 
