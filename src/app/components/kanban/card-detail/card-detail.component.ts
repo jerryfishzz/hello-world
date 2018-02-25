@@ -32,7 +32,7 @@ export class CardDetailComponent implements OnInit {
   isAddCard(url: string): boolean {
     // console.log("is");
     let re = /^\/kanban\/addcard\/[A-Za-z0-9]+/i;
-    console.log(re.test(url));
+    // console.log(re.test(url));
     return re.test(url);
   }
 
@@ -66,26 +66,26 @@ export class CardDetailComponent implements OnInit {
   }
   
   onBack(): void {
-    console.log(this._boardService.displayingBoardState);
+    // console.log(this._boardService.displayingBoardState);
     this._router.navigate(['/kanban']);
   }
 
   ngOnInit() {
     let url = this._router.url;
-    console.log(this._router.url);
+    // console.log(this._router.url);
     this.url = url;
 
     if (this.isAddCard(url)) {
       this.cardId = this._kanbanService.generateId();
-      console.log(this.cardId);
+      // console.log(this.cardId);
       this.boardEntityId = this._boardService.displayingBoardState.boardId;
-      console.log(this.boardEntityId);
+      // console.log(this.boardEntityId);
       this.boardEntityType = this._boardService.getBoard(this.boardEntityId).boardType;
-      console.log(this.boardEntityType);
+      // console.log(this.boardEntityType);
       this.cardType = this.boardEntityType == "portfolio" ? "project" : "task";
-      console.log(this.cardType)
+      // console.log(this.cardType)
       this.columnEntityId = this.url.split("/")[3];
-      console.log(this.columnEntityId);
+      // console.log(this.columnEntityId);
       this.inArchive = false;
     } else {
       this._route.params.subscribe((params: Params) => {

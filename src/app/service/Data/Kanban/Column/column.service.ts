@@ -273,13 +273,25 @@ export class ColumnService {
     this._columnSource.next(this.columnState);
   }
 
-  updateDirectCards(cardsForColumn: ICard[]): string[] {
-    let columnId: string = cardsForColumn[0] ? cardsForColumn[0].columnEntityId : "";
+  updateDirectCards(columnEntityId: string, cardsForColumn: ICard[], currentDropColumnId: string): void {
+    // let columnId: string = cardsForColumn[0] ? cardsForColumn[0].columnEntityId : "";
     
-    if(!columnId) return [];
-    return cardsForColumn.map(card => {
+    if(columnEntityId != currentDropColumnId || cardsForColumn.length === 1) return;
+
+    let newDirectCards: string[] = cardsForColumn.map(card => {
       return card.cardId;
     });
+
+    this.columnState = this.columnState.map(item => {
+      if (item.columnId !== columnEntityId) {
+        return item;
+      }
+
+      item.directCards = newDirectCards;
+      return item;
+    });
+    this._columnSource.next(this.columnState);
+
   }
 
 }
