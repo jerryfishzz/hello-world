@@ -9,6 +9,7 @@ import { ColumnComponent } from './column/column.component';
 import { BoardComponent } from './board/board.component';
 import { CardComponent } from './card/card.component';
 import { CardService } from './card/card.service';
+import { TestComponent } from './test/test.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { CardService } from './card/card.service';
     OfficialComponent,
     ColumnComponent,
     BoardComponent,
-    CardComponent
+    CardComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
