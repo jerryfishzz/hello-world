@@ -67,16 +67,16 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
     this.cardSubscription = this._cardService.cards$.subscribe(cards => {
       this.cards = cards;
 
-      this.cardsForColumn = [];
+      // this.cardsForColumn = [];
 
-      let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-      let directCards: string[] = theColumn.directCards;
+      // let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+      // let directCards: string[] = theColumn.directCards;
 
-      if(directCards.length) {
-        for(let directCard of directCards) {
-          this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
-        }
-      }
+      // if(directCards.length) {
+      //   for(let directCard of directCards) {
+      //     this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+      //   }
+      // }
     });
     
     /**   
@@ -92,7 +92,16 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
     /**
      * Use the order of directCards in the column to initialize cardsForColumn
      */
+    this.cardsForColumn = [];
 
+    let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+    let directCards: string[] = theColumn.directCards;
+
+    if(directCards.length) {
+      for(let directCard of directCards) {
+        this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+      }
+    }
 
 
 
