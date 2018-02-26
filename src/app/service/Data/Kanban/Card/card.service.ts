@@ -3,6 +3,7 @@ import { ICard } from './Model/ICard';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { ColumnService } from '../Column/column.service';
 import { BoardService } from '../Board/board.service';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class CardService {
@@ -48,6 +49,9 @@ export class CardService {
   
   private _cardSource = new BehaviorSubject<ICard[]>(this.cardState);  // Use the initial card value to create a tracking object for card information
   cards$ = this._cardSource.asObservable();  // Make that tracking object as an observable
+
+  private _columnDeleteSource = new BehaviorSubject<ICard[]>(this.cardState);
+  columnDelete$ = this._columnDeleteSource.asObservable();
 
   constructor(private _columnService: ColumnService, private _boardService: BoardService) { }
 
@@ -151,5 +155,9 @@ export class CardService {
       return card.cardId;
     });
   }
+
+  // initializeCardsForColumn(): void {
+  //   this._cardsForColumnSource.next();
+  // }
 
 }

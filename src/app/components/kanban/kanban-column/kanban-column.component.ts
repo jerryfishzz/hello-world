@@ -123,8 +123,13 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
    * @param directCardsLength  The counts of cards in the deleted column
    * @param columnEntityId  Parent column id of the deleted column
    */
-  deleteColumn(columnId: string, directCardsLength: number, columnEntityId: string = ""): void {
-    this._columnService.deleteColumn(columnId);  // Delete the column
+  deleteColumn(columnId: string, directCardsLength: number, columnEntityId: string, inner: boolean): void {
+    
+    if(!inner) {
+      this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
+    }
+    
+    
 
     /**
      * Move and update its cards
@@ -137,13 +142,24 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (columnEntityId !== "") {  // For inner delete, update its parent column.
-      this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
-    } else { // For outer delete, update its parent board.
-      this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
-    }
+    console.log("cards moved");
 
-    // this._router.navigate(['/kanban']);
+
+    this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
+
+    this._columnService.deleteColumn(columnId);  // Delete the column
+    
+    
+
+    // if (inner) {  // For inner delete, update its parent column.
+    //   this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
+    // } else { // For outer delete, update its parent board.
+    //   this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
+    //   this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
+    // }
+
+    // this._cardService.initializeCardsForColumn();
+    // this._boardService.initializeCardsForColumn();
   }
 
   // private onDropModel(args) {
@@ -161,6 +177,8 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   // }
 
   ngOnInit() {
+    console.log("column init");
+
     this.columnSubscription = this._columnService.columns$.subscribe(columns => {
       this.columns = columns;
       this.subColumns = columns.filter(column => column.columnEntityId !== null);
@@ -187,6 +205,7 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     this.displayingBoardSubscription.unsubscribe();
 
     // this.destroy$.next();
+    // this._boardService.initializeCardsForColumn();
   }
 
 }

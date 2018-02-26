@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IBoard } from './Model/IBoard';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class BoardService {
@@ -33,6 +34,9 @@ export class BoardService {
 
   private _displayingBoardSource = new BehaviorSubject<IBoard>(this.displayingBoardState);
   displayingBoard$ = this._displayingBoardSource.asObservable();
+
+  // _cardsForColumnSource = new Subject();
+  // cardsForColumn$ = this._cardsForColumnSource.asObservable();
 
   constructor() { }
 
@@ -122,5 +126,9 @@ export class BoardService {
     this.displayingBoardState = null;
     this._displayingBoardSource.next(this.displayingBoardState);
   }
+
+  // initializeCardsForColumn(): void {
+  //   this._cardsForColumnSource.next();
+  // }
 
 }

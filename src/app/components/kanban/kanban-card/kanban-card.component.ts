@@ -22,7 +22,9 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
   columnsForMovingSubscription: Subscription;
 
   newComments: string = "";
+
   cardsForColumn: ICard[];
+  // cardsForColumnSubscription: Subscription;
 
   private iterableDiffer: any;
 
@@ -47,19 +49,35 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
   //   console.log(this.cardsForColumn);
   // }
 
-  initializeCardsForColumn(): void {
-    this.cardsForColumn = [];
-    let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-    let directCards: string[] = theColumn.directCards;
-    if(directCards.length) {
-      for(let directCard of directCards) {
-        this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
-      }
-    }
-  }
+  // initializeCardsForColumn(): void {
+  //   this.cardsForColumn = [];
+  //   console.log("init");
+  //   console.log(this.columnEntityId);
+  //   let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+  //   let directCards: string[] = theColumn.directCards;
+  //   if(directCards.length) {
+  //     for(let directCard of directCards) {
+  //       this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+  //     }
+  //   }
+  // }
 
   ngOnInit() {
-    this.cardSubscription = this._cardService.cards$.subscribe(cards => this.cards = cards);
+    console.log("card init" + this.columnEntityId);
+    this.cardSubscription = this._cardService.cards$.subscribe(cards => {
+      this.cards = cards;
+
+      this.cardsForColumn = [];
+
+      let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+      let directCards: string[] = theColumn.directCards;
+
+      if(directCards.length) {
+        for(let directCard of directCards) {
+          this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+        }
+      }
+    });
     
     /**   
      * Not like column is only created once,
@@ -68,43 +86,80 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
      */
     this.columnsForMovingSubscription = this._columnService.columns$.subscribe(columns => this.columnsForCardsToMove = columns.filter(column => column.cardOnly === true && column.boardEntityId === this._boardService.displayingBoardState.boardId));
 
+
+
+
     /**
      * Use the order of directCards in the column to initialize cardsForColumn
      */
-    this.initializeCardsForColumn();
 
-    // this.cardsForColumn = [];
-    // let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-    // let directCards: string[] = theColumn.directCards;
-    // if(directCards.length) {
-    //   for(let directCard of directCards) {
-    //     this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+
+
+
+
+    // this.cardsForColumnSubscription = this._cardService.columnDelete$.subscribe(cards => {
+    //   this.cardsForColumn = [];
+
+    //   let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+    //   let directCards: string[] = theColumn.directCards;
+
+    //   if(directCards.length) {
+    //     for(let directCard of directCards) {
+    //       this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
+    //     }
     //   }
-    // }
-    
+
+    // });
+
+
+
+    // this.cardsForColumnSubscription = this._columnService.columnDelete$.subscribe(columns => {
+    //   this.cardsForColumn = 
+    // });
+
+
+
+
+
+
+    // this.initializeCardsForColumn();
+
+    // this.cardsForColumnSubscription = this._boardService.cardsForColumn$.subscribe(() => {
+    //   this.initializeCardsForColumn();
+    // });
+
   }
 
   ngOnDestroy() {
     this.cardSubscription.unsubscribe();
     this.columnsForMovingSubscription.unsubscribe();
+
+    // this.cardsForColumnSubscription.unsubscribe();
   }
 
   
 
   ngDoCheck() {
+
+    /**
+     * trigger by changes of cardsForColumn from dragula dropping events
+     */
     let changes = this.iterableDiffer.diff(this.cardsForColumn);
     if (changes) {
       // console.log('Changes detected!');
       // console.log(this.cardsForColumn);
 
       let currentDropColumnId: string = this._kanbanService.currentDropColumnState;
-      console.log(currentDropColumnId);
-      console.log(this.columnEntityId);
+      // console.log(currentDropColumnId);
+      // console.log(this.columnEntityId);
 
       this._columnService.updateDirectCards(this.columnEntityId, this.cardsForColumn, currentDropColumnId);
 
+      /**
+       * Reset CurrentDropColumn 
+       */
       if(currentDropColumnId == this.columnEntityId) {
-        this._kanbanService.updateCurrentDropColumn("");
+        this._kanbanService.updateCurrentDropColumn("");  
       }
       
     }

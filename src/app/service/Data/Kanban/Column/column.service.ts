@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { IColumn } from './Model/IColumn';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BoardService } from '../Board/board.service';
 import { ICard } from '../Card/Model/ICard';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class ColumnService {
@@ -52,6 +53,16 @@ export class ColumnService {
 
   private _columnSource = new BehaviorSubject<IColumn[]>(this.columnState);
   columns$ = this._columnSource.asObservable();
+
+
+
+
+  // private _columnDeleteSource = new BehaviorSubject<IColumn[]>(this.columnState);
+  // columnDelete$ = this._columnDeleteSource.asObservable();
+
+
+
+
   
   constructor(private _boardService: BoardService) { }
 
@@ -276,8 +287,13 @@ export class ColumnService {
   updateDirectCards(columnEntityId: string, cardsForColumn: ICard[], currentDropColumnId: string): void {
     // let columnId: string = cardsForColumn[0] ? cardsForColumn[0].columnEntityId : "";
     
+    /**
+     * Condition 1: changes will happen in two columns: drop-in and drag-out.  We only care about drop-in because we need to update the order after dropping.  In drag-out, no order issues.
+     * Condition 2: Only one card in an array has no order issues.
+     */
     if(columnEntityId != currentDropColumnId || cardsForColumn.length === 1) return;
 
+    // New order array
     let newDirectCards: string[] = cardsForColumn.map(card => {
       return card.cardId;
     });
@@ -290,6 +306,10 @@ export class ColumnService {
       item.directCards = newDirectCards;
       return item;
     });
+
+    // Here, go to update DB
+
+    // This step is not necessary, only for the reason to show the result of updated directCards value.  Dragula is under control the page looking.  Only use observable to update the page looking when necessary.
     this._columnSource.next(this.columnState);
 
   }
