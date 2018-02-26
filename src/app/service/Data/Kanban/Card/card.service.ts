@@ -91,7 +91,7 @@ export class CardService {
     this._cardSource.next(this.cardState);
   }
 
-  moveToOtherColumn(cardId: string, cardColumnEntityId: string, destinationColumnId: string): void {
+  moveToOtherColumn(cardId: string, cardColumnEntityId: string, destinationColumnId: string, render: boolean = true): void {
 
     /**
      * Need to judge if the column moving to is archive
@@ -110,7 +110,9 @@ export class CardService {
       item.columnEntityId = destinationColumnId;
       return item;
     });
-    this._cardSource.next(this.cardState);
+    if(render) {
+      this._cardSource.next(this.cardState);
+    }
 
     this._columnService.updateColumn(cardColumnEntityId, cardId, "", "delete", "");
     this._columnService.updateColumn(destinationColumnId, cardId, "", "add", "");
@@ -138,7 +140,7 @@ export class CardService {
     });
     this._cardSource.next(this.cardState);
 
-    this._columnService.updateColumn(idleColumnId, cardId, "", "add", "");
+    // this._columnService.updateColumn(idleColumnId, cardId, "", "add", "");
   }
 
   /**

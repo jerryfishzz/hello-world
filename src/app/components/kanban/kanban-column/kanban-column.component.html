@@ -1,5 +1,8 @@
 <div style="color:red">Column <button (click)="addColumn()"  style="color:black">Add</button></div>
+
+
 <div class="column-container">
+
   <ng-container *ngFor="let column of columns">
     <ng-container *ngIf="(boardEntityId === column.boardEntityId) && (!column.columnEntityId)">
 
@@ -68,4 +71,5 @@
       </div>
     </ng-container>
   </ng-container>
+  
 </div>

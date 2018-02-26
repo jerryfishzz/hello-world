@@ -36,7 +36,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
     this._kanbanService.updateCurrentDropColumn(destinationColumnId);
 
-    this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
+    this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId, false);
   }
 
   ngOnInit() {

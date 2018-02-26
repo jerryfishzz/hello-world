@@ -129,7 +129,8 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
       this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
     }
     
-    
+    this._columnService.emptyDirectCards(columnId);
+
 
     /**
      * Move and update its cards
@@ -137,17 +138,35 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     if (directCardsLength) {
       let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
       let cardsToIdle: ICard[] = this._cardService.cardState.filter(card => card.columnEntityId === columnId);
+      console.log("to idle");
+      console.log(cardsToIdle);
+
+      let n = 0;
       for (let cardToIdle of cardsToIdle) {
-        this._cardService.abandonColumn(cardToIdle.cardId, idleColumnId);
+        console.log(++n);
+        console.log(cardToIdle);
+
+        this._columnService.updateColumn(idleColumnId, cardToIdle.cardId, "", "add", "");
+        // this._cardService.abandonColumn(cardToIdle.cardId, idleColumnId);
+
+        
       }
+
+      // for (let cardToIdle of cardsToIdle) {
+      //   console.log(++n);
+      //   console.log(cardToIdle);
+      //   // this._cardService.abandonColumn(cardToIdle.cardId, idleColumnId);
+
+      //   this._columnService.updateColumn(idleColumnId, cardToIdle.cardId, "", "add", "");
+      // }
+
+      
     }
 
     console.log("cards moved");
 
 
-    this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
-
-    this._columnService.deleteColumn(columnId);  // Delete the column
+    // this._columnService.deleteColumn(columnId);  // Delete the column
     
     
 

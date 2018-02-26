@@ -137,6 +137,24 @@ export class ColumnService {
     this._columnSource.next(this.columnState);
   }
 
+
+
+  emptyDirectCards(columnId: string): void {
+
+    this.columnState = this.columnState.map(item => {
+      if (item.columnId !== columnId) {
+        return item;
+      }
+
+      item.directCards = [];
+      return item;
+    });
+  }
+
+
+
+
+
   /**
    * Change the initial column to card only
    * @param id  Column id

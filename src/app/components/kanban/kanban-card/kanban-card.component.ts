@@ -15,7 +15,7 @@ import { KanbanService } from '../../../service/Data/Kanban/kanban.service';
 })
 export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
 
-  cards: ICard[] = [];  // The array of all cards
+  // cards: ICard[] = [];  // The array of all cards
   cardSubscription: Subscription;
 
   columnsForCardsToMove: IColumn[];  // The array of columns that cards can move to
@@ -65,18 +65,23 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
   ngOnInit() {
     console.log("card init" + this.columnEntityId);
     this.cardSubscription = this._cardService.cards$.subscribe(cards => {
-      this.cards = cards;
+      // this.cards = cards;
 
-      // this.cardsForColumn = [];
+      this.cardsForColumn = [];
 
-      // let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-      // let directCards: string[] = theColumn.directCards;
+      let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+      let directCards: string[] = theColumn.directCards;
 
-      // if(directCards.length) {
-      //   for(let directCard of directCards) {
-      //     this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
-      //   }
-      // }
+      if(directCards.length) {
+        for(let directCard of directCards) {
+          this.cardsForColumn.push(cards.filter(card => card.cardId == directCard)[0]);
+          console.log("push");
+          console.log(this.cardsForColumn);
+        }
+        console.log("still in push");
+        console.log(this.columnEntityId);
+        
+      }
     });
     
     /**   
@@ -92,16 +97,16 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
     /**
      * Use the order of directCards in the column to initialize cardsForColumn
      */
-    this.cardsForColumn = [];
+    // this.cardsForColumn = [];
 
-    let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-    let directCards: string[] = theColumn.directCards;
+    // let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
+    // let directCards: string[] = theColumn.directCards;
 
-    if(directCards.length) {
-      for(let directCard of directCards) {
-        this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
-      }
-    }
+    // if(directCards.length) {
+    //   for(let directCard of directCards) {
+    //     this.cardsForColumn.push(this._cardService.cardState.filter(card => card.cardId == directCard)[0]);
+    //   }
+    // }
 
 
 

@@ -1,5 +1,7 @@
 <div style="color:red">Card</div>
 <a [routerLink]="['/kanban/addcard', columnEntityId]"  *ngIf="!reserved">Add</a>
+
+
 <div class="card-container" [dragula]='"card-bag"' [dragulaModel]='cardsForColumn' [attr.itemId]="columnEntityId">
   <div class="kanban-card" *ngFor="let card of cardsForColumn" [attr.itemId]="card.cardId">
     <div>ID: {{ card.cardId }}</div>
