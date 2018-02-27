@@ -128,7 +128,8 @@ export class CardService {
    * @param cardId  Id of the card which resides in the deleted column 
    * @param idleColumnId  Id of the idle column
    */
-  abandonColumn(cardId: string, idleColumnId: string): void {
+  moveToIdle(cardId: string, idleColumnId: string): void {
+    // console.log("abondon");
 
     this.cardState = this.cardState.map(item => {
       if (item.cardId !== cardId) {
@@ -139,8 +140,6 @@ export class CardService {
       return item;
     });
     this._cardSource.next(this.cardState);
-
-    // this._columnService.updateColumn(idleColumnId, cardId, "", "add", "");
   }
 
   /**

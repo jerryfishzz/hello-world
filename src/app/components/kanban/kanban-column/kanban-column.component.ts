@@ -31,16 +31,7 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   @Input() idleColumn: string;  // Idle column id of the parent board 
   @Input() archiveColumn: string;  // Archive column id of the parent board 
 
-  constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService, private _dragulaService: DragulaService) { 
-    // _dragulaService.dropModel.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-    //   console.log(`drop: ${value[0]}`);
-    //   this.onDropModel(value.slice(1));
-    // });
-
-    // _dragulaService.setOptions('card-bag', {
-    //   revertOnSpill: true
-    // });
-  }
+  constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService, private _dragulaService: DragulaService) { }
 
   addColumn(): void {
     var columnFactory: ColumnFactory = new ColumnFactory();
@@ -121,7 +112,7 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
    * Delete a card-only column
    * @param columnId  Id of the deleted column
    * @param directCardsLength  The counts of cards in the deleted column
-   * @param columnEntityId  Parent column id of the deleted column
+   * @param columnEntityId  Parent column id of the deleted column before delete
    */
   deleteColumn(columnId: string, directCardsLength: number, columnEntityId: string, inner: boolean): void {
     
@@ -138,33 +129,20 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     if (directCardsLength) {
       let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
       let cardsToIdle: ICard[] = this._cardService.cardState.filter(card => card.columnEntityId === columnId);
-      console.log("to idle");
-      console.log(cardsToIdle);
+      // console.log("to idle");
+      // console.log(cardsToIdle);
 
       let n = 0;
       for (let cardToIdle of cardsToIdle) {
-        console.log(++n);
-        console.log(cardToIdle);
-
+        // console.log(++n);
+        // console.log(cardToIdle);
         this._columnService.updateColumn(idleColumnId, cardToIdle.cardId, "", "add", "");
-        this._cardService.abandonColumn(cardToIdle.cardId, idleColumnId);
-
-        
+        this._cardService.moveToIdle(cardToIdle.cardId, idleColumnId);
       }
 
-      // for (let cardToIdle of cardsToIdle) {
-      //   console.log(++n);
-      //   console.log(cardToIdle);
-      //   // this._cardService.abandonColumn(cardToIdle.cardId, idleColumnId);
-
-      //   this._columnService.updateColumn(idleColumnId, cardToIdle.cardId, "", "add", "");
-      // }
-
-      
     }
 
-    console.log("cards moved");
-
+    // console.log("cards moved");
 
     this._columnService.deleteColumn(columnId);  // Delete the column
     
@@ -197,11 +175,10 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+
     this.columnSubscription.unsubscribe();
     this.displayingBoardSubscription.unsubscribe();
 
-    // this.destroy$.next();
-    // this._boardService.initializeCardsForColumn();
   }
 
 }

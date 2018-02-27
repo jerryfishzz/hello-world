@@ -18,8 +18,8 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
   // cards: ICard[] = [];  // The array of all cards
   cardSubscription: Subscription;
 
-  columnsForCardsToMove: IColumn[];  // The array of columns that cards can move to
-  columnsForMovingSubscription: Subscription;
+  // columnsForCardsToMove: IColumn[];  // The array of columns that cards can move to
+  // columnsForMovingSubscription: Subscription;
 
   newComments: string = "";
 
@@ -63,92 +63,36 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
   // }
 
   ngOnInit() {
-    console.log("card init" + this.columnEntityId);
+    // console.log("card init" + this.columnEntityId);
+
+    /**
+     * Card status needs column to decide.  If column doesn't update, card can't keep up with the update too.  So must update column first.
+     */
     this.cardSubscription = this._cardService.cards$.subscribe(cards => {
       // this.cards = cards;
 
       this.cardsForColumn = [];
 
+      /**
+       * Use the order of directCards in the column to initialize the order cardsForColumn
+       */
       let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-      let directCards: string[] = theColumn.directCards;
+      let directCards: string[] = theColumn.directCards;  // This is the update from column.
 
       if(directCards.length) {
         for(let directCard of directCards) {
           this.cardsForColumn.push(cards.filter(card => card.cardId == directCard)[0]);
-          console.log("push");
-          console.log(this.cardsForColumn);
+          // console.log("push");
+          // console.log(this.cardsForColumn);
         }
-        console.log("still in push");
-        console.log(this.columnEntityId);
-        
+        // console.log("still in push");
+        // console.log(this.columnEntityId);
       }
     });
-    
-    /**   
-     * Not like column is only created once,
-     * cards will be recreated everytime switching between boards.
-     * So columnsForCardsToMove will update along with the board switching.
-     */
-    this.columnsForMovingSubscription = this._columnService.columns$.subscribe(columns => this.columnsForCardsToMove = columns.filter(column => column.cardOnly === true && column.boardEntityId === this._boardService.displayingBoardState.boardId));
-
-
-
-
-    /**
-     * Use the order of directCards in the column to initialize cardsForColumn
-     */
-    // this.cardsForColumn = [];
-
-    // let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-    // let directCards: string[] = theColumn.directCards;
-
-    // if(directCards.length) {
-    //   for(let directCard of directCards) {
-    //     this.cardsForColumn.push(this._cardService.cardState.filter(card => card.cardId == directCard)[0]);
-    //   }
-    // }
-
-
-
-
-    // this.cardsForColumnSubscription = this._cardService.columnDelete$.subscribe(cards => {
-    //   this.cardsForColumn = [];
-
-    //   let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-    //   let directCards: string[] = theColumn.directCards;
-
-    //   if(directCards.length) {
-    //     for(let directCard of directCards) {
-    //       this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
-    //     }
-    //   }
-
-    // });
-
-
-
-    // this.cardsForColumnSubscription = this._columnService.columnDelete$.subscribe(columns => {
-    //   this.cardsForColumn = 
-    // });
-
-
-
-
-
-
-    // this.initializeCardsForColumn();
-
-    // this.cardsForColumnSubscription = this._boardService.cardsForColumn$.subscribe(() => {
-    //   this.initializeCardsForColumn();
-    // });
-
   }
 
   ngOnDestroy() {
     this.cardSubscription.unsubscribe();
-    this.columnsForMovingSubscription.unsubscribe();
-
-    // this.cardsForColumnSubscription.unsubscribe();
   }
 
   
@@ -177,6 +121,6 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
       }
       
     }
-}
+  }
 
 }
