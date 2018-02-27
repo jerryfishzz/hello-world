@@ -50,8 +50,8 @@ export class CardService {
   private _cardSource = new BehaviorSubject<ICard[]>(this.cardState);  // Use the initial card value to create a tracking object for card information
   cards$ = this._cardSource.asObservable();  // Make that tracking object as an observable
 
-  private _columnDeleteSource = new BehaviorSubject<ICard[]>(this.cardState);
-  columnDelete$ = this._columnDeleteSource.asObservable();
+  // private _columnDeleteSource = new BehaviorSubject<ICard[]>(this.cardState);
+  // columnDelete$ = this._columnDeleteSource.asObservable();
 
   constructor(private _columnService: ColumnService, private _boardService: BoardService) { }
 

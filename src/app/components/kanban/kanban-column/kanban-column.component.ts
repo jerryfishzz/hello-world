@@ -147,7 +147,7 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
         console.log(cardToIdle);
 
         this._columnService.updateColumn(idleColumnId, cardToIdle.cardId, "", "add", "");
-        // this._cardService.abandonColumn(cardToIdle.cardId, idleColumnId);
+        this._cardService.abandonColumn(cardToIdle.cardId, idleColumnId);
 
         
       }
@@ -166,34 +166,11 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     console.log("cards moved");
 
 
-    // this._columnService.deleteColumn(columnId);  // Delete the column
+    this._columnService.deleteColumn(columnId);  // Delete the column
     
-    
-
-    // if (inner) {  // For inner delete, update its parent column.
-    //   this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
-    // } else { // For outer delete, update its parent board.
-    //   this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
-    //   this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
-    // }
-
-    // this._cardService.initializeCardsForColumn();
-    // this._boardService.initializeCardsForColumn();
   }
 
-  // private onDropModel(args) {
-  //   let [el, target, source] = args;
-  //   console.log(el.getAttribute('itemId'));
-  //   console.log(source.getAttribute('itemId'));
-  //   console.log(target.getAttribute('itemId'));
-
-  //   let cardId = el.getAttribute('itemId');
-  //   let cardColumnEntityId = source.getAttribute('itemId');
-  //   let destinationColumnId = target.getAttribute('itemId');
-
-  //   // this.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
-  //   this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
-  // }
+  
 
   ngOnInit() {
     console.log("column init");
