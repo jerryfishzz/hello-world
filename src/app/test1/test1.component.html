@@ -1,5 +1,5 @@
 <div>
-  <div class="parentDraggable" [dragula]='"parent-bag"'>
+  <div class="parentDraggable" [ngClass]="{'visible': isClassVisible}" [dragula]='"parent-bag"'>
     
     <div class="childDraggable" [dragula]='"parent-bag"'>
       <div class="child">Moving</div>

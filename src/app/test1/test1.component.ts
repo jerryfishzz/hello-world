@@ -8,27 +8,14 @@ import { DragulaService } from 'ng2-dragula';
 })
 export class Test1Component implements OnInit {
 
+  isClassVisible: boolean = true;
+
   constructor(private dragulaService: DragulaService) { 
     // dragulaService.setOptions('parent-bag', {
     //   removeOnSpill: false,
-    //   // drop: function (el, target, source) {
-    //   //     if (target.classList) {
-    //   //         return target.classList.contains('childDraggable');
-    //   //     }
-    //   //     return false;
-    //   // }
     //   moves: function(el, container, handle) {
     //     return !handle.classList.contains('child');
     //   }
-    // });
-    // dragulaService.setOptions('child-bag', {
-    //   removeOnSpill: false,
-    //   // drop: function(el, container, target) {
-    //   //   return target.classList.contains('child');
-    //   // }
-    //   // moves: function(el, container, handle) {
-    //   //   return !handle.classList.contains('child');
-    //   // }
     // });
   }
 
