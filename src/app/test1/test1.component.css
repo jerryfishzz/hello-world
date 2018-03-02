@@ -1,0 +1,17 @@
+.parentDraggable {
+  border: solid 2px;
+  padding: 10px;
+  width: 800px;
+}
+
+.childDraggable {
+  display: flex;
+  background-color: aqua;
+  width: 400px;
+}
+
+.child {
+  margin: 10px;
+  padding: 10px;
+  background-color: chartreuse;
+}

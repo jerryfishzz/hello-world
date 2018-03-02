@@ -10,6 +10,7 @@ import { BoardComponent } from './board/board.component';
 import { CardComponent } from './card/card.component';
 import { CardService } from './card/card.service';
 import { TestComponent } from './test/test.component';
+import { Test1Component } from './test1/test1.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { TestComponent } from './test/test.component';
     ColumnComponent,
     BoardComponent,
     CardComponent,
-    TestComponent
+    TestComponent,
+    Test1Component
   ],
   imports: [
     BrowserModule,
