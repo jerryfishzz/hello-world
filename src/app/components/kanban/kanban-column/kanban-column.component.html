@@ -1,7 +1,7 @@
 <div style="color:red">Column <button (click)="addColumn()"  style="color:black">Add</button></div>
 
 
-<div class="column-container parentDraggable" [dragula]='"column-parent-bag"'>
+<div class="column-container parentDraggable" [dragula]='"column-bag"'>
 
   <ng-container *ngFor="let column of columns">
 
@@ -34,7 +34,7 @@
         <kanban-card class="column-content" [columnEntityId]="column.columnId" [reserved]="false" *ngIf="column.cardOnly"></kanban-card>
 
         <!-- Complex columns -->
-        <div class="column-container  childDraggable" *ngIf="!column.cardOnly"  [dragula]='"column-child-bag"'>
+        <div class="column-container childDraggable" *ngIf="!column.cardOnly"  [dragula]='"column-bag"'>
           <ng-container *ngFor="let subColumn of subColumns">
             <div class="kanban-column" *ngIf="subColumn.columnEntityId === column.columnId">
               <div class="column-description">

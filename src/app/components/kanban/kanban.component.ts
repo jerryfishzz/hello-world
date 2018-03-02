@@ -31,29 +31,29 @@ export class KanbanComponent implements OnInit, OnDestroy {
     //   }
     // });
 
-    _dragulaService.setOptions('column-parent-bag', {
-      removeOnSpill: false,
-      moves: function (el, p, target) {
-          console.log("tochild");
-          console.log(target.classList);
-          console.log(p);
-          // if (target.classList) {
-          //     return target.classList.contains('parentDraggable');
-          // }
-          // return false;
-          return true;
-      }
-    });
+    // _dragulaService.setOptions('column-parent-bag', {
+    //   removeOnSpill: false,
+    //   moves: function (el, p, target) {
+    //       console.log("tochild");
+    //       console.log(target.classList);
+    //       console.log(p);
+    //       // if (target.classList) {
+    //       //     return target.classList.contains('parentDraggable');
+    //       // }
+    //       // return false;
+    //       return true;
+    //   }
+    // });
 
-    _dragulaService.setOptions('column-child-bag', {
-      removeOnSpill: false,
-      moves: function (el, container, target) {
-          if (target.classList) {
-              return target.classList.contains('childDraggable');
-          }
-          return false;
-      }
-    });
+    // _dragulaService.setOptions('column-child-bag', {
+    //   removeOnSpill: false,
+    //   moves: function (el, container, target) {
+    //       if (target.classList) {
+    //           return target.classList.contains('childDraggable');
+    //       }
+    //       return false;
+    //   }
+    // });
     
   }
 
