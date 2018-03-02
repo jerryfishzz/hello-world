@@ -19,10 +19,25 @@
 }
 
 .archive-column {
-  order: 99;
+  order: 99;  /* make this column fixed */
   margin-left: auto;
 }
 
 .idle-column {
-  order: -1;
+  order: -1;  /* make this column fixed */
+}
+
+.handle {
+  padding: 0 5px;
+  margin-right: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: move;
+}
+
+.parentDraggable {
+  background-color: hotpink;
+}
+
+.childDraggable {
+  background-color: yellow;
 }

@@ -1,7 +1,7 @@
 <div style="color:red">Column <button (click)="addColumn()"  style="color:black">Add</button></div>
 
 
-<div class="column-container">
+<div class="column-container parentDraggable" [dragula]='"column-parent-bag"'>
 
   <ng-container *ngFor="let column of columns">
 
@@ -21,6 +21,7 @@
       <!-- Portfolio or project columns -->
       <div class="kanban-column" *ngIf="(idleColumn !== column.columnId) && (archiveColumn !== column.columnId)">
 
+        <span class="handle">+</span>
         <div class="column-description">
           <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
 
@@ -33,7 +34,7 @@
         <kanban-card class="column-content" [columnEntityId]="column.columnId" [reserved]="false" *ngIf="column.cardOnly"></kanban-card>
 
         <!-- Complex columns -->
-        <div class="column-container" *ngIf="!column.cardOnly">
+        <div class="column-container  childDraggable" *ngIf="!column.cardOnly"  [dragula]='"column-child-bag"'>
           <ng-container *ngFor="let subColumn of subColumns">
             <div class="kanban-column" *ngIf="subColumn.columnEntityId === column.columnId">
               <div class="column-description">
@@ -63,6 +64,7 @@
         <!-- Outer delete -->
         <button style="color:red" *ngIf="!column.subColumns.length" (click)="deleteColumn(column.columnId, column.directCards.length, column.columnEntityId, false)">Delete</button>
       </div>
+      
 
       <!-- Idle column -->
       <div class="kanban-column archive-column" *ngIf="archiveColumn === column.columnId">

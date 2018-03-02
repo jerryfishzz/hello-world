@@ -22,10 +22,44 @@ export class KanbanComponent implements OnInit, OnDestroy {
     _dragulaService.setOptions('card-bag', {
       revertOnSpill: true
     });
+
+    // _dragulaService.setOptions('column-parent-bag', {
+    //   removeOnSpill: false,
+    //   moves: function (el, container, handle) {
+    //     console.log("handle");
+    //     return handle.className === 'handle';
+    //   }
+    // });
+
+    _dragulaService.setOptions('column-parent-bag', {
+      removeOnSpill: false,
+      moves: function (el, p, target) {
+          console.log("tochild");
+          console.log(target.classList);
+          console.log(p);
+          // if (target.classList) {
+          //     return target.classList.contains('parentDraggable');
+          // }
+          // return false;
+          return true;
+      }
+    });
+
+    _dragulaService.setOptions('column-child-bag', {
+      removeOnSpill: false,
+      moves: function (el, container, target) {
+          if (target.classList) {
+              return target.classList.contains('childDraggable');
+          }
+          return false;
+      }
+    });
+    
   }
 
   private onDropModel(args) {
     let [el, target, source] = args;
+    console.log("drop action");
     // console.log(el.getAttribute('itemId'));
     // console.log(source.getAttribute('itemId'));
     // console.log(target.getAttribute('itemId'));
