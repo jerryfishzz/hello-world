@@ -37,7 +37,8 @@ export class KanbanComponent implements OnInit, OnDestroy {
         // console.log(source.classList);
         // console.log(handle.className);
         return handle.className;  // when not existing, the handle is cards.
-      }
+      },
+      direction: 'horizontal'
     });
 
 
