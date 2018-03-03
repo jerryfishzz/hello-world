@@ -14,6 +14,7 @@ export class ColumnService {
       "columnName": "To do",
       "columnEntityId": null,
       "cardOnly": false,
+      "groupColumn": false,
       "directCards": [],
       "subColumns": [],
       "boardEntityId": "100",
@@ -24,6 +25,7 @@ export class ColumnService {
       "columnName": "Doing",
       "columnEntityId": null,
       "cardOnly": true,
+      "groupColumn": false,
       "directCards": ["52", "51", "53"],
       "subColumns": [],
       "boardEntityId": "100",
@@ -34,6 +36,7 @@ export class ColumnService {
       "columnName": "Done",
       "columnEntityId": null,
       "cardOnly": false,
+      "groupColumn": true,
       "directCards": [],
       "subColumns": ["31"],
       "boardEntityId": "100",
@@ -44,6 +47,7 @@ export class ColumnService {
       "columnName": "In Thirty",
       "columnEntityId": "30",
       "cardOnly": true,
+      "groupColumn": false,
       "directCards": [],
       "subColumns": [],
       "boardEntityId": "100",
@@ -167,10 +171,29 @@ export class ColumnService {
       }
 
       item.cardOnly = true;
+      item.groupColumn = false;
       return item;
     });
     this._columnSource.next(this.columnState);
   }
+
+
+  complicateColumn(id: string): void {
+    console.log("column-complicated service: " + id);
+    this.columnState = this.columnState.map(item => {
+      if (item.columnId !== id) {
+        return item;
+      }
+
+      item.cardOnly = false;
+      item.groupColumn = true;
+      return item;
+    });
+    this._columnSource.next(this.columnState);
+  }
+
+
+
 
   /**
    * Move columns between columns

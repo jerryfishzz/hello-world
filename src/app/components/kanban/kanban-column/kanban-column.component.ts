@@ -40,11 +40,12 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     var columnName: string = "";
     var columnEntityId: string = "";
     var cardOnly: boolean = false;  // default is false
+    var groupColumn: boolean = false;  // default is false
     var directCards: string[] = [];
     var subColumns: string[] = [];
     var boardEntityType: string = this._boardService.getBoard(this.boardEntityId).boardType;
 
-    let newColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, directCards, subColumns, this.boardEntityId, boardEntityType);
+    let newColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, this.boardEntityId, boardEntityType);
 
     this._columnService.addColumn(newColumn);
     this._boardService.updateBoard(this.boardEntityId, columnId, "add");
@@ -56,11 +57,12 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     var columnId: string = this._kanbanService.generateId();
     var columnName: string = "";
     var cardOnly: boolean = true;  
+    var groupColumn: boolean = false;
     var directCards: string[] = [];
     var subColumns: string[] = [];
     var boardEntityType: string = this._boardService.getBoard(this.boardEntityId).boardType;
 
-    let newSubColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, directCards, subColumns, this.boardEntityId, boardEntityType);
+    let newSubColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, this.boardEntityId, boardEntityType);
 
     this._columnService.addColumn(newSubColumn);
   }
@@ -98,6 +100,10 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
    */
   simplifyColumn(id: string): void {
     this._columnService.simplifyColumn(id);
+  }
+
+  complicateColumn(id: string): void {
+    this._columnService.complicateColumn(id);
   }
 
   /**
@@ -156,7 +162,7 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     this.columnSubscription = this._columnService.columns$.subscribe(columns => {
       this.columns = columns;
       this.subColumns = columns.filter(column => column.columnEntityId !== null);
-      this.columnsForColumnToMove = columns.filter(column => column.cardOnly === false && column.boardEntityId === this._boardService.displayingBoardState.boardId);
+      this.columnsForColumnToMove = columns.filter(column => column.cardOnly === false && column.groupColumn === true && column.boardEntityId === this._boardService.displayingBoardState.boardId);
     });
 
     /**
@@ -167,7 +173,7 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
      */
     this.displayingBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
       if(displayingBoard) {
-        this.columnsForColumnToMove = this._columnService.columnState.filter(column => column.cardOnly === false && column.boardEntityId === displayingBoard.boardId);
+        this.columnsForColumnToMove = this._columnService.columnState.filter(column => column.cardOnly === false && column.groupColumn === true && column.boardEntityId === displayingBoard.boardId);
       } else {
         this.columnsForColumnToMove = [];  // Note, when displayingBoard does not exist, neither does displayingBoard.boardId.
       }

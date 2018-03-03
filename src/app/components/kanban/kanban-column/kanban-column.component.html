@@ -21,20 +21,35 @@
       <!-- Portfolio or project columns -->
       <div class="kanban-column" [ngClass]="{'inter-draggable': column.cardOnly}" *ngIf="(idleColumn !== column.columnId) && (archiveColumn !== column.columnId)">
 
-        <span class="handle">+</span>
         <div class="column-description">
           <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
 
-          <button *ngIf="!column.cardOnly && !column.subColumns.length" (click)="simplifyColumn(column.columnId)">Card Only</button>
+          <!-- Button groups -->
+          <!-- <button *ngIf="!column.cardOnly && !column.subColumns.length" (click)="simplifyColumn(column.columnId)">Card Only</button>
           <button *ngIf="!column.cardOnly" (click)="addSubColumn(column.columnId)">More Columns</button>
-          <button *ngIf="column.cardOnly && !column.directCards.length" (click)="initializeColumn(column.columnId)">Initialize</button>
+          <button *ngIf="column.cardOnly && !column.directCards.length" (click)="initializeColumn(column.columnId)">Initialize</button> -->
+
+          <!-- Uninitilized column -->
+          <button *ngIf="!column.cardOnly && !column.groupColumn" (click)="simplifyColumn(column.columnId)">Card Only</button>
+          <button *ngIf="!column.cardOnly && !column.groupColumn" (click)="complicateColumn(column.columnId)">Column Group</button>
+
+          <!-- Only card column but without any cards yet -->
+          <button *ngIf="column.cardOnly && !column.directCards.length" (click)="complicateColumn(column.columnId)">Switch To GC</button>
+
+          <!-- Group column -->
+          <button *ngIf="column.groupColumn" (click)="addSubColumn(column.columnId)">New Sub</button>
+
+          <!-- Group column but without any columns yet -->
+          <button *ngIf="column.groupColumn && !column.subColumns.length" (click)="simplifyColumn(column.columnId)">Switch To Card</button>
+
+
         </div>
 
         <!-- Simple columns -->
         <kanban-card class="column-content" [columnEntityId]="column.columnId" [reserved]="false" *ngIf="column.cardOnly"></kanban-card>
 
         <!-- Complex columns -->
-        <div class="column-container childDraggable inter-draggable" *ngIf="!column.cardOnly"  [dragula]='"column-bag"'>
+        <div class="column-container childDraggable inter-draggable" *ngIf="column.groupColumn"  [dragula]='"column-bag"'>
           <ng-container *ngFor="let subColumn of subColumns">
             <div class="kanban-column" [ngClass]="{'inter-draggable': subColumn.cardOnly}" *ngIf="subColumn.columnEntityId === column.columnId">
               <div class="column-description">
@@ -42,11 +57,12 @@
               </div>
               <kanban-card class="column-content" [columnEntityId]="subColumn.columnId" [reserved]="false" *ngIf="subColumn.cardOnly"></kanban-card>
 
-              <!-- Inner move buttons -->
+              <!-- Inner move buttons --> 
               <ng-container *ngFor="let columnToMove of columnsForColumnToMove">
                 <button *ngIf="subColumn.columnEntityId !== columnToMove.columnId" (click)="moveToOtherColumn(subColumn.columnId, subColumn.columnEntityId, columnToMove.columnId)">{{ columnToMove.columnName }}</button>
               </ng-container>
               <button (click)="freeColumn(subColumn.columnId, subColumn.columnEntityId)">Free</button>
+              
 
               <!-- Inner delete -->
               <button style="color:red" (click)="deleteColumn(subColumn.columnId, subColumn.directCards.length, subColumn.columnEntityId, true)">Delete</button>

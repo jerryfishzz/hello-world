@@ -24,13 +24,19 @@ export class KanbanComponent implements OnInit, OnDestroy {
     });
 
     _dragulaService.setOptions('column-bag', {
-      accepts: function (el, target, source) {
+      accepts: function (el, target, source, sibling) {
           // console.log(target.classList);
           // console.log(el.classList);
           if (target.classList.contains('inter-draggable')) {
               return el.classList.contains('inter-draggable');
           }
           return true;
+      },
+      moves: function (el, source, handle) {
+        // console.log(el.classList);
+        // console.log(source.classList);
+        // console.log(handle.className);
+        return handle.className;  // when not existing, the handle is cards.
       }
     });
 

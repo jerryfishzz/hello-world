@@ -55,11 +55,12 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       var columnName: string = "Idle Column";
       var columnEntityId: string = "";
       var cardOnly: boolean = true;  
+      var groupColumn: boolean = false;
       var directCards: string[] = [];
       var subColumns: string[] = [];
       var boardEntityType: string = this._boardService.getBoard(boardId).boardType;
 
-      let idleColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, directCards, subColumns, boardId, boardEntityType);
+      let idleColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, boardId, boardEntityType);
       this._columnService.addColumn(idleColumn);
       this._boardService.addIdle(boardId, columnId);
     }
@@ -74,11 +75,12 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       var columnName: string = "Archive Column";
       var columnEntityId: string = "";
       var cardOnly: boolean = true;
+      var groupColumn: boolean = false;
       var directCards: string[] = [];
       var subColumns: string[] = [];
       var boardEntityType: string = this._boardService.getBoard(boardId).boardType;
 
-      let archiveColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, directCards, subColumns, boardId, boardEntityType);
+      let archiveColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, boardId, boardEntityType);
       
       this._columnService.addColumn(archiveColumn);
       this._boardService.addArchive(boardId, columnId);
