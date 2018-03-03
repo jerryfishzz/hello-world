@@ -15,11 +15,11 @@ import { KanbanService } from '../../../service/Data/Kanban/kanban.service';
 })
 export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
 
-  // cards: ICard[] = [];  // The array of all cards
+  // cards: ICard[] = [];  // The array of all cards.  
   cardSubscription: Subscription;
 
-  // columnsForCardsToMove: IColumn[];  // The array of columns that cards can move to
-  // columnsForMovingSubscription: Subscription;
+  columnsForCardsToMove: IColumn[];  // The array of columns that cards can move to.  Move button for test only.
+  columnsForMovingSubscription: Subscription;  // Move button for test only
 
   newComments: string = "";
 
@@ -72,7 +72,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
      * Card status needs column to decide.  If column doesn't update, card can't keep up with the update too.  So must update column first.
      */
     this.cardSubscription = this._cardService.cards$.subscribe(cards => {
-      // this.cards = cards;
+      // this.cards = cards;  
 
       this.cardsForColumn = [];
 
@@ -92,10 +92,16 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
         // console.log(this.columnEntityId);
       }
     });
+
+    
+    this.columnsForMovingSubscription = this._columnService.columns$.subscribe(columns => this.columnsForCardsToMove = columns.filter(column => column.cardOnly === true && column.boardEntityId === this._boardService.displayingBoardState.boardId));  // Move button for test only
+
   }
 
   ngOnDestroy() {
     this.cardSubscription.unsubscribe();
+
+    this.columnsForMovingSubscription.unsubscribe();  // Move button for test only
   }
 
   

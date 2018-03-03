@@ -90,8 +90,8 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
    * @param columnEntityId  Parent column id
    */
   freeColumn(columnId: string, columnEntityId: string): void {
-    this._columnService.freeColumn(columnId, columnEntityId);
     this._boardService.updateBoard(this.boardEntityId, columnId, "add");
+    this._columnService.freeColumn(columnId, columnEntityId);
   }
 
   /**
