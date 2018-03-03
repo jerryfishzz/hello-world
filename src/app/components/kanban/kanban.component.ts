@@ -23,6 +23,21 @@ export class KanbanComponent implements OnInit, OnDestroy {
       revertOnSpill: true
     });
 
+    _dragulaService.setOptions('column-bag', {
+      accepts: function (el, target, source) {
+          console.log(target.classList);
+          // console.log(el.classList);
+          if (target.classList.contains('inter-draggable')) {
+              return el.classList.contains('inter-draggable');
+          }
+          return true;
+      }
+    });
+
+
+
+
+
     // _dragulaService.setOptions('column-parent-bag', {
     //   removeOnSpill: false,
     //   moves: function (el, container, handle) {
@@ -54,6 +69,8 @@ export class KanbanComponent implements OnInit, OnDestroy {
     //       return false;
     //   }
     // });
+
+    
     
   }
 
