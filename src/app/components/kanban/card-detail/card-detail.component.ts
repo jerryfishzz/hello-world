@@ -5,6 +5,7 @@ import { BoardService } from '../../../service/Data/Kanban/Board/board.service';
 import { CardService } from '../../../service/Data/Kanban/Card/card.service';
 import { CardFactory } from '../../../service/Data/Kanban/Card/Factory/CardFactory';
 import { ICard } from '../../../service/Data/Kanban/Card/Model/ICard';
+import { ColumnService } from '../../../service/Data/Kanban/Column/column.service';
 
 @Component({
   templateUrl: './card-detail.component.html',
@@ -23,7 +24,7 @@ export class CardDetailComponent implements OnInit {
   comments: string = "";
   inArchive: boolean;
 
-  constructor(private _router: Router, private _route: ActivatedRoute, private _kanbanService: KanbanService, private _cardService: CardService, private _boardService: BoardService) { }
+  constructor(private _router: Router, private _route: ActivatedRoute, private _kanbanService: KanbanService, private _cardService: CardService, private _boardService: BoardService, private _columnService: ColumnService) { }
 
   /**
    * Judge according to URL to tell this page is adding or updating 
@@ -61,6 +62,10 @@ export class CardDetailComponent implements OnInit {
    */
   archiveCard(): void {
     let destinationColumn: string = this._boardService.displayingBoardState.archiveColumn;
+
+    this._columnService.updateColumn(this.columnEntityId, this.cardId, "", "delete", "");
+    this._columnService.updateColumn(destinationColumn, this.cardId, "", "add", "");
+
     this._cardService.moveToOtherColumn(this.cardId, this.columnEntityId, destinationColumn);
     this.onBack();
   }

@@ -71,7 +71,7 @@
         </div>
 
         <!-- Outer move buttons -->
-        <ng-container *ngIf="!column.subColumns.length">
+        <ng-container *ngIf="column.cardOnly">
           <ng-container *ngFor="let columnToMove of columnsForColumnToMove">
             <button *ngIf="column.columnId !== columnToMove.columnId" (click)="moveToOtherColumn(column.columnId, '', columnToMove.columnId)">{{ columnToMove.columnName }}</button>
           </ng-container>

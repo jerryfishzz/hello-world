@@ -110,12 +110,11 @@ export class CardService {
       item.columnEntityId = destinationColumnId;
       return item;
     });
-    if(render) {
+    
+    // We only need to push card changes to observable when this function is NOT triggered by dragula 
+    if(render) {  
       this._cardSource.next(this.cardState);
     }
-
-    this._columnService.updateColumn(cardColumnEntityId, cardId, "", "delete", "");
-    this._columnService.updateColumn(destinationColumnId, cardId, "", "add", "");
   }
 
   getCard(id: string): ICard {
