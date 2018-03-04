@@ -12,7 +12,7 @@ export class BoardService {
       "boardName": "Project 100",
       "boardType": "project",
       "idleColumn": "",
-      "directColumns": ["10", "20", "30"],
+      "directColumns": ["30", "20", "10"],
       "archiveColumn": "",
       "entityId": "1000"
     },
@@ -33,7 +33,7 @@ export class BoardService {
   displayingBoardState: IBoard = null;  // No displaying board when page is just load 
 
   private _displayingBoardSource = new BehaviorSubject<IBoard>(this.displayingBoardState);
-  displayingBoard$ = this._displayingBoardSource.asObservable();
+  displayingBoard$ = this._displayingBoardSource.asObservable();  // Seems to only use it when switching boards
 
   // _cardsForColumnSource = new Subject();
   // cardsForColumn$ = this._cardsForColumnSource.asObservable();

@@ -97,7 +97,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
     // console.log(el);
 
     let columnId = el.getAttribute('itemId');
-
+    let sourceId = source.getAttribute('itemId');
     let targetId = target.getAttribute('itemId');
     // console.log(targetId);
     let children = target.children;
@@ -116,13 +116,13 @@ export class KanbanComponent implements OnInit, OnDestroy {
     console.log(orderOfChildren);
 
     // console.log(target.classList.contains('parentDraggable'));
-    console.log(source.classList.contains('parentDraggable'));
+    // console.log(source.classList.contains('parentDraggable'));
 
     if(target.classList.contains('parentDraggable')) {
       this._boardService.adjustDirectSubOrder(targetId, orderOfChildren);
 
       if(source.classList.contains('childDraggable')) {
-        let sourceId = source.getAttribute('itemId');
+        
 
         this._columnService.freeColumn(columnId, sourceId, true);  // Can change the last arg to false depending on the real working environment requirement
       }
@@ -144,21 +144,15 @@ export class KanbanComponent implements OnInit, OnDestroy {
       this._columnService.adjustSubOrder(targetId, orderOfChildren);
 
       if(source.classList.contains('parentDraggable')) {
-        this._columnService.moveToOtherColumn(columnId, "", targetId, true, true);  // Can change the last arg to false depending on the real working environment requirement
+        this._columnService.moveToOtherColumn(columnId, "", targetId, true, true);  // Can change the second last arg to false depending on the real working environment requirement
+      }
+
+      // child-to-child move in different columns
+      if(source.classList.contains('childDraggable') && (sourceId !== targetId)) {
+        this._columnService.moveToOtherColumn(columnId, sourceId, targetId, true, true);  // Can change the second last arg to false depending on the real working environment requirement
       }
     }
-
-    // console.log(target.children[1].getAttribute('itemId'));
-    // do something
-    // let index = this.getElementIndex(el);
-    // console.log(index);
   }
-
-  // private getElementIndex(el: any) {
-  //   return [].slice.call(el.parentElement.children).indexOf(el);
-  // }
-
-
 
   ngOnInit() {
   }

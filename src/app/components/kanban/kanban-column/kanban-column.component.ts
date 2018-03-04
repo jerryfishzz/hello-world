@@ -31,6 +31,15 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   @Input() idleColumn: string;  // Idle column id of the parent board 
   @Input() archiveColumn: string;  // Archive column id of the parent board 
 
+  directColumns: string[];  
+  directColumnsSubscription: Subscription;
+
+  idleColumnObj: IColumn;
+  idleColumnObjSubscription: Subscription;
+
+  archiveColumnObj: IColumn;
+  archiveColumnObjSubscription: Subscription;
+
   constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService, private _dragulaService: DragulaService) { }
 
   addColumn(): void {
@@ -160,6 +169,19 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log("column init");
+    console.log(this.directColumns);
+
+    this.directColumnsSubscription = this._boardService.boards$.subscribe(() => {
+      this.directColumns = this._boardService.getBoard(this.boardEntityId).directColumns;
+    });
+
+    this.idleColumnObjSubscription = this._columnService.columns$.subscribe(() => {
+      this.idleColumnObj = this._columnService.getColumn(this.idleColumn);
+    });
+    this.archiveColumnObjSubscription = this._columnService.columns$.subscribe(() => {
+      this.archiveColumnObj = this._columnService.getColumn(this.archiveColumn);
+    });
+    
 
     this.columnSubscription = this._columnService.columns$.subscribe(columns => {
       this.columns = columns;
@@ -183,6 +205,9 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.directColumnsSubscription.unsubscribe();
+    this.idleColumnObjSubscription.unsubscribe();
+    this.archiveColumnObjSubscription.unsubscribe();
 
     this.columnSubscription.unsubscribe();
     this.displayingBoardSubscription.unsubscribe();

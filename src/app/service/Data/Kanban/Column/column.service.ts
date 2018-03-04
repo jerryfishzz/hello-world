@@ -210,18 +210,13 @@ export class ColumnService {
         }
 
         /**
-         * The column moving out
-         */
-        if (item.columnId === columnId) {
-          item.columnEntityId = destinationColumnId;
-          return item;
-        }
-
-        /**
          * Destination column
          */
         if (item.columnId === destinationColumnId) {
-          item.subColumns.push(columnId);
+          if(!dragula) {
+            item.subColumns.push(columnId);
+            return item;
+          }
           return item;
         }
 
@@ -230,6 +225,14 @@ export class ColumnService {
          */
         if (item.columnId === columnEntityId) {
           item.subColumns = item.subColumns.filter(subColumn => subColumn !== columnId);
+          return item;
+        }
+
+        /**
+         * The column moving out
+         */
+        if (item.columnId === columnId) {
+          item.columnEntityId = destinationColumnId;
           return item;
         }
       });
