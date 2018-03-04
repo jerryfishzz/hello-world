@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { CardService } from '../../service/Data/Kanban/Card/card.service';
 import { KanbanService } from '../../service/Data/Kanban/kanban.service';
 import { ColumnService } from '../../service/Data/Kanban/Column/column.service';
+import { BoardService } from '../../service/Data/Kanban/Board/board.service';
 
 @Component({
   selector: 'kanban',
@@ -14,7 +15,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject();
 
-  constructor(private _dragulaService: DragulaService, private _cardService: CardService, private _kanbanService: KanbanService, private _columnService: ColumnService) {
+  constructor(private _dragulaService: DragulaService, private _cardService: CardService, private _kanbanService: KanbanService, private _columnService: ColumnService, private _boardService: BoardService) {
 
     /**
      * Card drag and drop
@@ -89,14 +90,32 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
 
   private onDrop(args) {
-    let [e, el] = args;
+    // console.log(args);
+    let [el, target, source, sibling] = args;
+    console.log(target);
+    let children = target.children;
+    // console.log(children.length);
+
+    let idleId: string = this._boardService.displayingBoardState.idleColumn;
+    let archiveId: string = this._boardService.displayingBoardState.archiveColumn;
+
+
+    let orderOfChildren: string[] = [];
+    for(let child of children) {
+      let childId = child.getAttribute('itemId');
+      if(childId == idleId || childId == archiveId) continue;
+      orderOfChildren.push(child.getAttribute('itemId'));
+    }
+    console.log(orderOfChildren);
+    // console.log(target.children[1].getAttribute('itemId'));
     // do something
-    console.log(this.getIndexInParent(el));
+    // let index = this.getElementIndex(el);
+    // console.log(index);
   }
 
-  getIndexInParent(el) {
-    return Array.from(el.parentNode.children).indexOf(el)
-  }
+  // private getElementIndex(el: any) {
+  //   return [].slice.call(el.parentElement.children).indexOf(el);
+  // }
 
 
 

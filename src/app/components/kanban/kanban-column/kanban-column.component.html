@@ -9,7 +9,7 @@
     <ng-container *ngIf="(boardEntityId === column.boardEntityId) && (!column.columnEntityId)">
 
       <!-- Idle column -->
-      <div class="kanban-column idle-column" *ngIf="idleColumn === column.columnId">
+      <div class="kanban-column idle-column" *ngIf="idleColumn === column.columnId" [attr.itemId]="column.columnId">
         <div class="column-description">
           <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
         </div>
@@ -19,7 +19,7 @@
       </div>
 
       <!-- Portfolio or project columns -->
-      <div class="kanban-column" [ngClass]="{'inter-draggable': column.cardOnly}" *ngIf="(idleColumn !== column.columnId) && (archiveColumn !== column.columnId)">
+      <div class="kanban-column" [ngClass]="{'inter-draggable': column.cardOnly}" *ngIf="(idleColumn !== column.columnId) && (archiveColumn !== column.columnId)" [attr.itemId]="column.columnId">
 
         <div class="column-description">
           <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
@@ -51,7 +51,7 @@
         <!-- Complex columns -->
         <div class="column-container childDraggable inter-draggable" *ngIf="column.groupColumn"  [dragula]='"column-bag"'>
           <ng-container *ngFor="let subColumn of subColumns">
-            <div class="kanban-column" [ngClass]="{'inter-draggable': subColumn.cardOnly}" *ngIf="subColumn.columnEntityId === column.columnId">
+            <div class="kanban-column" [ngClass]="{'inter-draggable': subColumn.cardOnly}" *ngIf="subColumn.columnEntityId === column.columnId" [attr.itemId]="subColumn.columnId">
               <div class="column-description">
                 <column-detail [columnName]="subColumn.columnName" [columnId]="subColumn.columnId"></column-detail>
               </div>
@@ -83,7 +83,7 @@
       
 
       <!-- Idle column -->
-      <div class="kanban-column archive-column" *ngIf="archiveColumn === column.columnId">
+      <div class="kanban-column archive-column" *ngIf="archiveColumn === column.columnId" [attr.itemId]="column.columnId">
         <div class="column-description">
           <column-detail [columnName]="column.columnName" [columnId]="column.columnId"></column-detail>
         </div>
