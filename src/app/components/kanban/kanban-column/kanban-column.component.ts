@@ -124,6 +124,8 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     
     if(!inner) {
       this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
+    } else {
+      this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
     }
     
     this._columnService.emptyDirectCards(columnId);
