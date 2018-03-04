@@ -201,7 +201,7 @@ export class ColumnService {
    * @param columnEntityId  Id of the column which the moving column belongs to before moving
    * @param destinationColumnId  Id of the column which the moving column will move to
    */
-  moveToOtherColumn(columnId: string, columnEntityId: string, destinationColumnId: string): void {
+  moveToOtherColumn(columnId: string, columnEntityId: string, destinationColumnId: string, render: boolean = true, dragula: boolean = false): void {
     
     if (columnEntityId !== "") {  // Inner move
       this.columnState = this.columnState.map(item => {
@@ -241,7 +241,7 @@ export class ColumnService {
         }
 
         /**
-         * The column moving out
+         * The column moving in
          */
         if (item.columnId === columnId) {
           if (!item.directCards.length) item.cardOnly = true;
@@ -253,13 +253,16 @@ export class ColumnService {
          * Destination column
          */
         if (item.columnId === destinationColumnId) {
-          item.subColumns.push(columnId);
+          if(!dragula) {
+            item.subColumns.push(columnId);
+            return item;
+          }
           return item;
         }
       });
     }
-
-    this._columnSource.next(this.columnState);
+    
+    if(render) this._columnSource.next(this.columnState);
   }
 
   /**
@@ -267,9 +270,15 @@ export class ColumnService {
    * @param columnId  Sub-column id
    * @param columnEntityId  Parent column id
    */
-  freeColumn(columnId: string, columnEntityId: string): void {
+  freeColumn(columnId: string, columnEntityId: string, render: boolean = true): void {
     this.columnState = this.columnState.map(item => {
       if ((item.columnId !== columnId) && (item.columnId !== columnEntityId)) {
+        return item;
+      }
+
+      // The column once resided
+      if (item.columnId === columnEntityId) {
+        item.subColumns = item.subColumns.filter(subColumn => subColumn !== columnId);
         return item;
       }
 
@@ -279,15 +288,9 @@ export class ColumnService {
         item.columnEntityId = "";
         return item;
       }
-
-      // The column once resided
-      if (item.columnId === columnEntityId) {
-        item.subColumns = item.subColumns.filter(subColumn => subColumn !== columnId);
-        return item;
-      }
     });
 
-    this._columnSource.next(this.columnState);
+    if(render) this._columnSource.next(this.columnState);
   }
 
   /**
@@ -350,9 +353,23 @@ export class ColumnService {
 
     // Here, go to update DB
 
-    // This step is not necessary, only for the reason to show the result of updated directCards value.  Dragula is under control the page looking.  Only use observable to update the page looking when necessary.
+    // This line is not necessary in the working environment.  Here is only for showing the result of updated directCards value.  When this function is invoked, dragula is under control the page looking, not observable.  If no useful contents need to update, just comment off this line.
     this._columnSource.next(this.columnState);
 
+  }
+
+  adjustSubOrder(columnId: string, newSubOrder: string[]): void {
+    this.columnState = this.columnState.map(item => {
+      if (item.columnId !== columnId) {
+        return item;
+      }
+      
+      item.subColumns = newSubOrder;
+      return item;
+    });
+
+    // This line is not necessary in the working environment.  Here is only for showing the result of updated subColumns value.
+    this._columnSource.next(this.columnState);
   }
 
 }

@@ -111,7 +111,7 @@ export class CardService {
       return item;
     });
     
-    // We only need to push card changes to observable when this function is NOT triggered by dragula 
+    // We only push card changes to observable when this function is NOT triggered by dragula 
     if(render) {  
       this._cardSource.next(this.cardState);
     }

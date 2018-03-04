@@ -92,7 +92,14 @@ export class KanbanComponent implements OnInit, OnDestroy {
   private onDrop(args) {
     // console.log(args);
     let [el, target, source, sibling] = args;
-    console.log(target);
+    // console.log(target);
+    // console.log(target.classList);
+    // console.log(el);
+
+    let columnId = el.getAttribute('itemId');
+
+    let targetId = target.getAttribute('itemId');
+    // console.log(targetId);
     let children = target.children;
     // console.log(children.length);
 
@@ -107,6 +114,40 @@ export class KanbanComponent implements OnInit, OnDestroy {
       orderOfChildren.push(child.getAttribute('itemId'));
     }
     console.log(orderOfChildren);
+
+    // console.log(target.classList.contains('parentDraggable'));
+    console.log(source.classList.contains('parentDraggable'));
+
+    if(target.classList.contains('parentDraggable')) {
+      this._boardService.adjustDirectSubOrder(targetId, orderOfChildren);
+
+      if(source.classList.contains('childDraggable')) {
+        let sourceId = source.getAttribute('itemId');
+
+        this._columnService.freeColumn(columnId, sourceId, true);  // Can change the last arg to false depending on the real working environment requirement
+      }
+    } 
+
+    /**
+     * Inner column order changes 
+     */
+    if(target.classList.contains('childDraggable')) {
+
+      /**
+       * Outer column becomes inner column 
+       */
+      if(source.classList.contains('parentDraggable')) {
+        let boardId = source.getAttribute('itemId');
+        this._boardService.updateBoard(boardId, columnId, "delete", true);  // Can change the last arg to false depending on the real working environment requirement
+      }
+
+      this._columnService.adjustSubOrder(targetId, orderOfChildren);
+
+      if(source.classList.contains('parentDraggable')) {
+        this._columnService.moveToOtherColumn(columnId, "", targetId, true, true);  // Can change the last arg to false depending on the real working environment requirement
+      }
+    }
+
     // console.log(target.children[1].getAttribute('itemId'));
     // do something
     // let index = this.getElementIndex(el);

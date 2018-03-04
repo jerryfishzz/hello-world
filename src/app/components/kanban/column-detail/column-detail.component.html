@@ -5,6 +5,11 @@
 <ng-container>/ {{ columnId }}</ng-container><br />
 <button [disabled]="!show" (click)="show = !show">Edit</button>
 <button [disabled]="show" (click)="updateColumnDetail(columnId)">Save</button><br />
+Column Entity ID:
+<ng-container *ngIf="theColumn.columnEntityId">
+  <ng-container>{{ theColumn.columnEntityId }} </ng-container>
+</ng-container>
+<ng-container *ngIf="!theColumn.columnEntityId">Outer Column</ng-container><br />
   Direct Cards:
 <ng-container *ngIf="theColumn.directCards.length">
   <ng-container *ngFor="let directCard of theColumn.directCards">{{ directCard }} </ng-container>

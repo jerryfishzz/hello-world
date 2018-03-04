@@ -95,7 +95,7 @@ export class BoardService {
    * @param columnId  Id of the column which is added or deleted
    * @param action  Only two valid values for two possible actions - "add" and "delete"
    */
-  updateBoard(boardId: string, columnId: string, action: string): void {
+  updateBoard(boardId: string, columnId: string, action: string, render: boolean = true): void {
     this.boardState = this.boardState.map(item => {
       if (item.boardId !== boardId) {
         return item;
@@ -111,7 +111,7 @@ export class BoardService {
         return item;
       }
     });
-    this._boardSource.next(this.boardState);
+    if(render) this._boardSource.next(this.boardState);
   }
 
   deleteBoard(boardId: string): void {
@@ -130,5 +130,20 @@ export class BoardService {
   // initializeCardsForColumn(): void {
   //   this._cardsForColumnSource.next();
   // }
+
+
+  adjustDirectSubOrder(boardId: string, newSubOrder: string[]): void {
+    this.boardState = this.boardState.map(item => {
+      if (item.boardId !== boardId) {
+        return item;
+      }
+      
+      item.directColumns = newSubOrder;
+      return item;
+    });
+
+    // This line is not necessary in the working environment.  Here is only for showing the result of updated directColumns value.
+    this._boardSource.next(this.boardState);
+  }
 
 }
