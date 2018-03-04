@@ -38,13 +38,24 @@ export class ColumnService {
       "cardOnly": false,
       "groupColumn": true,
       "directCards": [],
-      "subColumns": ["31"],
+      "subColumns": ["32", "31"],
       "boardEntityId": "100",
       "boardEntityType": "project"
     },
     {
       "columnId": "31",
       "columnName": "In Thirty",
+      "columnEntityId": "30",
+      "cardOnly": true,
+      "groupColumn": false,
+      "directCards": [],
+      "subColumns": [],
+      "boardEntityId": "100",
+      "boardEntityType": "project"
+    },
+    {
+      "columnId": "32",
+      "columnName": "In Thirty-2",
       "columnEntityId": "30",
       "cardOnly": true,
       "groupColumn": false,
