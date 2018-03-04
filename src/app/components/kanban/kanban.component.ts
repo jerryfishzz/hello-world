@@ -53,6 +53,11 @@ export class KanbanComponent implements OnInit, OnDestroy {
       },
       direction: 'horizontal'  // Set the drag and drop by the direction of horizon
     });  
+
+    _dragulaService.drop.asObservable().takeUntil(this.destroy$).subscribe((value) => {
+      console.log(`drop: ${value[0]}`);
+      this.onDrop(value.slice(1));
+    });
   }
 
   /**
@@ -80,6 +85,20 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId, false);
   }
+
+
+
+  private onDrop(args) {
+    let [e, el] = args;
+    // do something
+    console.log(this.getIndexInParent(el));
+  }
+
+  getIndexInParent(el) {
+    return Array.from(el.parentNode.children).indexOf(el)
+  }
+
+
 
   ngOnInit() {
   }
