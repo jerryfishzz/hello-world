@@ -42,8 +42,19 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
    * @param destinationColumnId  The id of the column which the card will move to
    */
   moveToOtherColumn(cardId: string, cardColumnEntityId: string, destinationColumnId: string): void {
+
+    let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
+    let archiveColumnId: string = this._boardService.displayingBoardState.archiveColumn;
+
     this._columnService.updateColumn(cardColumnEntityId, cardId, "", "delete", "");
     this._columnService.updateColumn(destinationColumnId, cardId, "", "add", "");
+
+    if(cardColumnEntityId == idleColumnId) this._columnService.updateIdleColumn(cardColumnEntityId);
+    if(destinationColumnId == idleColumnId) this._columnService.updateIdleColumn(destinationColumnId);
+
+    if(cardColumnEntityId == archiveColumnId) this._columnService.updateArchiveColumn(cardColumnEntityId);
+    if(destinationColumnId == archiveColumnId) this._columnService.updateArchiveColumn(destinationColumnId);
+
 
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }

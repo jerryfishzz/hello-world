@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, DoCheck, IterableDiffers, IterableDiffer } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { IColumn } from '../../../service/Data/Kanban/Column/Model/IColumn';
 import { ColumnService } from '../../../service/Data/Kanban/Column/column.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -22,9 +22,7 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
 
   // private iterableDiffer: any;
 
-  constructor(private _columnService: ColumnService, private _boardService: BoardService, private _iterableDiffers: IterableDiffers) { 
-    // this.iterableDiffer = this._iterableDiffers.find([]).create(null);
-  }
+  constructor(private _columnService: ColumnService, private _boardService: BoardService) { }
 
   updateColumnDetail(id: string) {
     this._columnService.updateColumnDetail(this.columnId, this.newName);
@@ -38,7 +36,7 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
     this.theColumnSubscription = this._boardService.displayingBoard$.subscribe(() => {
       // let columnId = this._boardService.displayingBoardState.
       this.theColumn = this._columnService.getColumn(this.columnId);
-      console.log(this.theColumn);
+      // console.log(this.theColumn);
     });
   }
 
@@ -46,11 +44,4 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
     this.theColumnSubscription.unsubscribe();
   }
 
-  // ngDoCheck() {
-  //   let changes = this.iterableDiffer.diff(this.columnId);
-  //   if(changes) {
-  //     this.theColumn = this._columnService.getColumn(this.columnId);
-  //   } 
-  // }
-  
 }

@@ -4,7 +4,7 @@
 <div class="column-container parentDraggable" [dragula]='"column-bag"' [attr.itemId]="boardEntityId">
 
   <!-- Idle column -->
-  <ng-container *ngIf="idleColumns.length">
+  <!-- <ng-container *ngIf="idleColumns.length"> -->
     <ng-container *ngFor="let idleColumn of idleColumns">
       <div class="kanban-column idle-column" [attr.itemId]="idleColumn.columnId" *ngIf="idleColumn.boardEntityId === boardEntityId">
         <div class="column-description">
@@ -15,7 +15,7 @@
         <kanban-card class="column-content" [columnEntityId]="idleColumn.columnId" [reserved]="true" *ngIf="idleColumn.cardOnly"></kanban-card>
       </div>
     </ng-container>
-  </ng-container>
+  <!-- </ng-container> -->
 
   <!-- Go with the order -->
   <ng-container *ngFor="let directColumn of directColumns">
@@ -98,7 +98,7 @@
   </ng-container>
 
   <!-- Archive column -->
-  <ng-container *ngIf="archiveColumns.length">
+  <!-- <ng-container *ngIf="archiveColumns.length"> -->
     <ng-container *ngFor="let archiveColumn of archiveColumns">
       <div class="kanban-column archive-column" [attr.itemId]="archiveColumn.columnId" *ngIf="archiveColumn.boardEntityId === boardEntityId">
         <div class="column-description">
@@ -108,6 +108,6 @@
         <kanban-card class="column-content" [columnEntityId]="archiveColumn.columnId" [reserved]="true" *ngIf="archiveColumn.cardOnly"></kanban-card>
       </div>
     </ng-container>
-  </ng-container>
+  <!-- </ng-container> -->
 
 </div>

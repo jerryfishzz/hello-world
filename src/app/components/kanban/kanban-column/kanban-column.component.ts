@@ -149,10 +149,10 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
    */
   deleteColumn(columnId: string, directCardsLength: number, columnEntityId: string, inner: boolean): void {
     
-    if(!inner) {
+    if(!inner) {  // Delete column info from board
       this._boardService.updateBoard(this.boardEntityId, columnId, "delete");
       this._boardService.updateDisplayingBoard(this.boardEntityId);
-    } else {
+    } else {  // Delete column info from parent column
       this._columnService.updateColumn(columnEntityId, "", columnId, "", "delete");
     }
     
@@ -189,10 +189,14 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log("column init");
-    console.log(this.directColumns);
+    // console.log(this.directColumns);
 
     this.directColumnsSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
-      this.directColumns = displayingBoard.directColumns;
+      if(displayingBoard) {
+        this.directColumns = displayingBoard.directColumns;
+      } else {
+        this.directColumns = [];
+      }
     });
 
 

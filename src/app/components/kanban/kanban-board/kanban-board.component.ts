@@ -113,10 +113,10 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   // }
 
   deleteBoard(): void {
-    this._boardService.deleteBoard(this.displayingBoard.boardId);
-    this._columnService.deleteColumnsByBoardEntityId(this.displayingBoard.boardId);
     this._cardService.deleteCardsByBoardEntityId(this.displayingBoard.boardId);
-
+    this._columnService.deleteColumnsByBoardEntityId(this.displayingBoard.boardId);
+    this._boardService.deleteBoard(this.displayingBoard.boardId);
+    
     this._boardService.clearDisplayingBoard();
   }
 

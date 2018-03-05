@@ -155,7 +155,10 @@ export class ColumnService {
   }
 
 
-
+  /**
+   * Clear column's directCards
+   * @param columnId  The column's id
+   */
   emptyDirectCards(columnId: string): void {
 
     this.columnState = this.columnState.map(item => {
@@ -166,6 +169,7 @@ export class ColumnService {
       item.directCards = [];
       return item;
     });
+    this._columnSource.next(this.columnState);
   }
 
 
@@ -342,6 +346,12 @@ export class ColumnService {
   deleteColumnsByBoardEntityId(boardEntityId: string): void {
     this.columnState = this.columnState.filter(column => column.boardEntityId !== boardEntityId);
     this._columnSource.next(this.columnState);
+
+    this.idleColumnState = this.idleColumnState.filter(column => column.boardEntityId !== boardEntityId);
+    this._idleColumnSource.next(this.idleColumnState);
+
+    this.archiveColumnState = this.archiveColumnState.filter(column => column.boardEntityId !== boardEntityId);
+    this._archiveColumnSource.next(this.archiveColumnState);
   }
 
   updateDirectCards(columnEntityId: string, cardsForColumn: ICard[], currentDropColumnId: string): void {
@@ -414,6 +424,19 @@ export class ColumnService {
       return item;
     });
     this._idleColumnSource.next(this.idleColumnState);
+  }
+
+  updateArchiveColumn(archiveColumnId: string): void {
+    let archiveColumn = this.getColumn(archiveColumnId);
+    this.archiveColumnState = this.archiveColumnState.map(item => {
+      if(item.columnId != archiveColumnId) {
+        return item;
+      }
+
+      item = archiveColumn;
+      return item;
+    });
+    this._archiveColumnSource.next(this.idleColumnState);
   }
 
 }
