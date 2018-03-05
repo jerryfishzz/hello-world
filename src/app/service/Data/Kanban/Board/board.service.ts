@@ -30,8 +30,9 @@ export class BoardService {
   private _boardSource = new BehaviorSubject<IBoard[]>(this.boardState);
   boards$ = this._boardSource.asObservable();
 
-  displayingBoardState: IBoard = null;  // No displaying board when page is just load 
 
+
+  displayingBoardState: IBoard = null;  // No displaying board when page is just load 
   private _displayingBoardSource = new BehaviorSubject<IBoard>(this.displayingBoardState);
   displayingBoard$ = this._displayingBoardSource.asObservable();  // Seems to only use it when switching boards
 
@@ -55,35 +56,40 @@ export class BoardService {
     this._displayingBoardSource.next(this.displayingBoardState);
   }
 
-  addIdle(boardId: string, idleColumnId: string): void {
+  addIdleAndArchive(boardId: string, idleColumnId: string, archiveColumnId: string): void {
     this.boardState = this.boardState.map(item => {
       if (item.boardId !== boardId) {
         return item;
       }
 
       item.idleColumn = idleColumnId;
-      return item;
-    });
-    this._boardSource.next(this.boardState);
-
-    this.displayingBoardState.idleColumn = idleColumnId;
-    this._displayingBoardSource.next(this.displayingBoardState);
-  }
-
-  addArchive(boardId: string, archiveColumnId: string): void {
-    this.boardState = this.boardState.map(item => {
-      if (item.boardId !== boardId) {
-        return item;
-      }
-
       item.archiveColumn = archiveColumnId;
       return item;
     });
     this._boardSource.next(this.boardState);
 
-    this.displayingBoardState.archiveColumn = archiveColumnId;
-    this._displayingBoardSource.next(this.displayingBoardState);
+    this.updateDisplayingBoard(boardId);
+    
+    // this.displayingBoardState.idleColumn = idleColumnId;
+    // this._displayingBoardSource.next(this.displayingBoardState);
   }
+
+  // addArchive(boardId: string, archiveColumnId: string): void {
+  //   this.boardState = this.boardState.map(item => {
+  //     if (item.boardId !== boardId) {
+  //       return item;
+  //     }
+
+  //     item.archiveColumn = archiveColumnId;
+  //     return item;
+  //   });
+  //   this._boardSource.next(this.boardState);
+
+  //   this.updateDisplayingBoard(boardId);
+
+  //   // this.displayingBoardState.archiveColumn = archiveColumnId;
+  //   // this._displayingBoardSource.next(this.displayingBoardState);
+  // }
 
   getBoard(id: string): IBoard {
     return this.boardState.filter(board => id === board.boardId)[0];

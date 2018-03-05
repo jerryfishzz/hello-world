@@ -70,12 +70,14 @@ export class ColumnService {
   columns$ = this._columnSource.asObservable();
 
 
+  idleColumnState: IColumn[] = [];
+  private _idleColumnSource = new BehaviorSubject<IColumn[]>(this.idleColumnState);
+  idleColumn$ = this._idleColumnSource.asObservable();
 
 
-  // private _columnDeleteSource = new BehaviorSubject<IColumn[]>(this.columnState);
-  // columnDelete$ = this._columnDeleteSource.asObservable();
-
-
+  archiveColumnState: IColumn[] = [];
+  private _archiveColumnSource = new BehaviorSubject<IColumn[]>(this.archiveColumnState);
+  archiveColumn$ = this._archiveColumnSource.asObservable();
 
 
   
@@ -384,6 +386,34 @@ export class ColumnService {
 
     // This line is not necessary in the working environment.  Here is only for showing the result of updated subColumns value.
     this._columnSource.next(this.columnState);
+  }
+
+  addIdleAndArchive(idleColumn: IColumn, archiveColumn: IColumn): void {
+    this.columnState.push(idleColumn);
+    this.columnState.push(archiveColumn);
+    this._columnSource.next(this.columnState);
+
+    // this.updateColumn(newColumn.columnEntityId, "", newColumn.columnId, "", "add");
+
+    this.idleColumnState.push(idleColumn);
+    this._idleColumnSource.next(this.idleColumnState);
+
+    this.archiveColumnState.push(archiveColumn);
+    this._archiveColumnSource.next(this.archiveColumnState);
+    
+  }
+
+  updateIdleColumn(idleColumnId: string): void {
+    let idleColumn = this.getColumn(idleColumnId);
+    this.idleColumnState = this.idleColumnState.map(item => {
+      if(item.columnId != idleColumnId) {
+        return item;
+      }
+
+      item = idleColumn;
+      return item;
+    });
+    this._idleColumnSource.next(this.idleColumnState);
   }
 
 }

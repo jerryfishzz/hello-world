@@ -43,63 +43,74 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   }
 
   showBoard(boardId: string): void {
-    this._boardService.updateDisplayingBoard(boardId);
+    let isIdleAndArchiveThere: boolean = this.isIdleAndArchiveThere(boardId);
+    // let isArchiveThere: boolean = this.isArchiveThere(boardId);
+
+    if(isIdleAndArchiveThere) {
+      this._boardService.updateDisplayingBoard(boardId);
+      return;
+    }
 
     /**
-     * If no idle column, add it.
+     * Add idle and archive column and update.
      */
-    if (!this.isIdleThere(boardId)) {
-      var columnFactory: ColumnFactory = new ColumnFactory();
+    let columnFactory: ColumnFactory = new ColumnFactory();
+    let columnId: string = this._kanbanService.generateId();
+    let columnName: string = "Idle Column";
+    let columnEntityId: string = "";
+    let cardOnly: boolean = true;  
+    let groupColumn: boolean = false;
+    let directCards: string[] = [];
+    let subColumns: string[] = [];
+    let boardEntityType: string = this._boardService.getBoard(boardId).boardType;
 
-      var columnId: string = this._kanbanService.generateId();
-      var columnName: string = "Idle Column";
-      var columnEntityId: string = "";
-      var cardOnly: boolean = true;  
-      var groupColumn: boolean = false;
-      var directCards: string[] = [];
-      var subColumns: string[] = [];
-      var boardEntityType: string = this._boardService.getBoard(boardId).boardType;
+    let idleColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, boardId, boardEntityType);
 
-      let idleColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, boardId, boardEntityType);
-      this._columnService.addColumn(idleColumn);
-      this._boardService.addIdle(boardId, columnId);
-    }
+    
+    let columnFactoryA: ColumnFactory = new ColumnFactory();
+    let columnIdA: string = this._kanbanService.generateId();
+    let columnNameA: string = "Archive Column";
+    let columnEntityIdA: string = "";
+    let cardOnlyA: boolean = true;
+    let groupColumnA: boolean = false;
+    let directCardsA: string[] = [];
+    let subColumnsA: string[] = [];
+    let boardEntityTypeA: string = this._boardService.getBoard(boardId).boardType;
+
+    let archiveColumn: IColumn = columnFactoryA.generateGenericColumn(columnIdA, columnNameA, columnEntityIdA, cardOnlyA, groupColumnA, directCardsA, subColumnsA, boardId, boardEntityTypeA);
+    
+    
+
+    this._boardService.addIdleAndArchive(boardId, columnId, columnIdA);
+    this._columnService.addIdleAndArchive(idleColumn, archiveColumn);
+    // this._columnService.addColumn(archiveColumn);
 
     /**
      * If no archive column, add it.
      */
-    if (!this.isArchiveThere(boardId)) {
-      var columnFactory: ColumnFactory = new ColumnFactory();
-
-      var columnId: string = this._kanbanService.generateId();
-      var columnName: string = "Archive Column";
-      var columnEntityId: string = "";
-      var cardOnly: boolean = true;
-      var groupColumn: boolean = false;
-      var directCards: string[] = [];
-      var subColumns: string[] = [];
-      var boardEntityType: string = this._boardService.getBoard(boardId).boardType;
-
-      let archiveColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, boardId, boardEntityType);
+    
+    
       
-      this._columnService.addColumn(archiveColumn);
-      this._boardService.addArchive(boardId, columnId);
-    }
+    // this._boardService.addArchive(boardId, columnId);
+     
   }
 
-  isIdleThere(boardId: string): boolean {
-    if (this._boardService.getBoard(boardId).idleColumn === "") {
-      return false;
-    }
-    return true;
+  isIdleAndArchiveThere(boardId: string): boolean {
+    let status: boolean = true;
+    let theBoard: IBoard = this._boardService.getBoard(boardId);
+
+    if(!theBoard.idleColumn) status = false;
+    if(!theBoard.archiveColumn) status = false;
+
+    return status;
   }
 
-  isArchiveThere(boardId: string): boolean {
-    if (this._boardService.getBoard(boardId).archiveColumn === "") {
-      return false;
-    }
-    return true;
-  }
+  // isArchiveThere(boardId: string): boolean {
+  //   if (this._boardService.getBoard(boardId).archiveColumn === "") {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   deleteBoard(): void {
     this._boardService.deleteBoard(this.displayingBoard.boardId);

@@ -4,14 +4,18 @@
 <div class="column-container parentDraggable" [dragula]='"column-bag"' [attr.itemId]="boardEntityId">
 
   <!-- Idle column -->
-  <div class="kanban-column idle-column" [attr.itemId]="idleColumnObj.columnId">
-    <div class="column-description">
-      <column-detail [columnName]="idleColumnObj.columnName" [columnId]="idleColumnObj.columnId"></column-detail>
-    </div>
+  <ng-container *ngIf="idleColumns.length">
+    <ng-container *ngFor="let idleColumn of idleColumns">
+      <div class="kanban-column idle-column" [attr.itemId]="idleColumn.columnId" *ngIf="idleColumn.boardEntityId === boardEntityId">
+        <div class="column-description">
+          <column-detail [columnName]="idleColumn.columnName" [columnId]="idleColumn.columnId"></column-detail>
+        </div>
 
-    <!-- Judgement for cardOnly is for displaying, otherwise, the column won't display card area. -->
-    <kanban-card class="column-content" [columnEntityId]="idleColumnObj.columnId" [reserved]="true" *ngIf="idleColumnObj.cardOnly"></kanban-card>
-  </div>
+        <!-- Judgement for cardOnly is for displaying, otherwise, the column won't display card area. -->
+        <kanban-card class="column-content" [columnEntityId]="idleColumn.columnId" [reserved]="true" *ngIf="idleColumn.cardOnly"></kanban-card>
+      </div>
+    </ng-container>
+  </ng-container>
 
   <!-- Go with the order -->
   <ng-container *ngFor="let directColumn of directColumns">
@@ -94,12 +98,16 @@
   </ng-container>
 
   <!-- Archive column -->
-  <div class="kanban-column archive-column" [attr.itemId]="archiveColumnObj.columnId">
-    <div class="column-description">
-      <column-detail [columnName]="archiveColumnObj.columnName" [columnId]="archiveColumnObj.columnId"></column-detail>
-    </div>
+  <ng-container *ngIf="archiveColumns.length">
+    <ng-container *ngFor="let archiveColumn of archiveColumns">
+      <div class="kanban-column archive-column" [attr.itemId]="archiveColumn.columnId" *ngIf="archiveColumn.boardEntityId === boardEntityId">
+        <div class="column-description">
+          <column-detail [columnName]="archiveColumn.columnName" [columnId]="archiveColumn.columnId"></column-detail>
+        </div>
 
-    <kanban-card class="column-content" [columnEntityId]="archiveColumnObj.columnId" [reserved]="true" *ngIf="archiveColumnObj.cardOnly"></kanban-card>
-  </div>
-  
+        <kanban-card class="column-content" [columnEntityId]="archiveColumn.columnId" [reserved]="true" *ngIf="archiveColumn.cardOnly"></kanban-card>
+      </div>
+    </ng-container>
+  </ng-container>
+
 </div>
