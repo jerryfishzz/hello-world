@@ -118,11 +118,14 @@ export class KanbanComponent implements OnInit, OnDestroy {
     // console.log(target.classList.contains('parentDraggable'));
     // console.log(source.classList.contains('parentDraggable'));
 
+    
+    /**
+     * Outer column order changes
+     */
     if(target.classList.contains('parentDraggable')) {
       this._boardService.adjustDirectSubOrder(targetId, orderOfChildren);
 
       if(source.classList.contains('childDraggable')) {
-        
 
         this._columnService.freeColumn(columnId, sourceId, true);  // Can change the last arg to false depending on the real working environment requirement
       }
@@ -139,6 +142,9 @@ export class KanbanComponent implements OnInit, OnDestroy {
       if(source.classList.contains('parentDraggable')) {
         let boardId = source.getAttribute('itemId');
         this._boardService.updateBoard(boardId, columnId, "delete", true);  // Can change the last arg to false depending on the real working environment requirement
+
+        // Can be commented off according to the real needs
+        this._boardService.updateDisplayingBoard(boardId);
       }
 
       this._columnService.adjustSubOrder(targetId, orderOfChildren);

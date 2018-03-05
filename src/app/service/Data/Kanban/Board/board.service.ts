@@ -142,10 +142,12 @@ export class BoardService {
       return item;
     });
 
-    // This line is not necessary in the working environment.  Here is only for showing the result of updated directColumns value.
+    // This line can be commented off according to the requirement of the real situation.  Here is only for showing the result of updated directColumns value.
     this._boardSource.next(this.boardState);
     
     this.displayingBoardState = this.getBoard(this.displayingBoardState.boardId);
+
+    // This line can be commented off according to the requirement of the real situation
     this._displayingBoardSource.next(this.displayingBoardState);
   }
 
