@@ -180,20 +180,26 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
 
 
     this.idleColumnObjFromBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
+      // console.log("idleColumnObjFromBoard");
       let idleColumnId: string = displayingBoard.idleColumn;
+      // console.log("idleColumnId: " + idleColumnId);
       this.idleColumnObj = this._columnService.getColumn(idleColumnId);
+      // console.log(this.idleColumnObj);
     });
     this.archiveColumnObjFromBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
+      console.log("archiveColumnObjFromBoard");
       let archiveColumnId: string = displayingBoard.archiveColumn;
       this.archiveColumnObj = this._columnService.getColumn(archiveColumnId);
     });
 
 
     this.idleColumnObjFromColumnSubscription = this._columnService.columns$.subscribe(() => {
+      console.log("idleColumnObjFromColumn");
       let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
       this.idleColumnObj = this._columnService.getColumn(idleColumnId);
     });
     this.archiveColumnObjFromColumnSubscription = this._columnService.columns$.subscribe(() => {
+      console.log("archiveColumnObjFromColumn");
       let archiveColumnId: string = this._boardService.displayingBoardState.archiveColumn;
       this.archiveColumnObj = this._columnService.getColumn(archiveColumnId);
     });

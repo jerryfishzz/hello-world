@@ -20,10 +20,10 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
   theColumn: IColumn;
   theColumnSubscription: Subscription;
 
-  private iterableDiffer: any;
+  // private iterableDiffer: any;
 
   constructor(private _columnService: ColumnService, private _boardService: BoardService, private _iterableDiffers: IterableDiffers) { 
-    this.iterableDiffer = this._iterableDiffers.find([]).create(null);
+    // this.iterableDiffer = this._iterableDiffers.find([]).create(null);
   }
 
   updateColumnDetail(id: string) {
@@ -32,16 +32,18 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log("column detail init");
     this.newName = this.columnName;
     this.show = (this.columnName !== "" ? true : false);
     this.theColumnSubscription = this._boardService.displayingBoard$.subscribe(() => {
       // let columnId = this._boardService.displayingBoardState.
       this.theColumn = this._columnService.getColumn(this.columnId);
+      console.log(this.theColumn);
     });
   }
 
   ngOnDestroy() {
-    // this.theColumnSubscription.unsubscribe();
+    this.theColumnSubscription.unsubscribe();
   }
 
   // ngDoCheck() {
