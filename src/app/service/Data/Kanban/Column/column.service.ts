@@ -384,6 +384,9 @@ export class ColumnService {
     // This line is not necessary in the working environment.  Here is only for showing the result of updated directCards value.  When this function is invoked, dragula is under control the page looking, not observable.  If no useful contents need to update, just comment off this line.
     this._columnSource.next(this.columnState);
 
+    // console.log(this.columnState);
+    // console.log(this.idleColumnState);
+
   }
 
   adjustSubOrder(columnId: string, newSubOrder: string[]): void {
@@ -401,9 +404,6 @@ export class ColumnService {
   }
 
   addIdleAndArchive(idleColumn: IColumn, archiveColumn: IColumn): void {
-    // this.columnState.push(idleColumn);
-    // this.columnState.push(archiveColumn);
-    // this._columnSource.next(this.columnState);
 
     this.idleColumnState.push(idleColumn);
     this._idleColumnSource.next(this.idleColumnState);

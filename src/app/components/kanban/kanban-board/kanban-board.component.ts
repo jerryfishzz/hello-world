@@ -79,29 +79,19 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
     let archiveColumn: IColumn = columnFactoryA.generateGenericColumn(columnIdA, columnNameA, columnEntityIdA, cardOnlyA, groupColumnA, directCardsA, subColumnsA, boardId, boardEntityTypeA);
     
-    let idleColumn1: IColumn = Object.assign({}, idleColumn);
-    let archiveColumn1: IColumn = Object.assign({}, archiveColumn);
+    let idleColumn1: IColumn = JSON.parse(JSON.stringify(idleColumn));  // You need to make a deep copy for a whole new object to push into idleColumnState.  Otherwise, it will share the same reference with the original one.  That means changes in origin will map to the one in idleColumnState.  Don't use Object.assign().  It can't make a deep copy.  The object created by Object.assign share the same reference with the origin.
+    
+    let archiveColumn1: IColumn = JSON.parse(JSON.stringify(archiveColumn));
+    
 
     this._boardService.addIdleAndArchive(boardId, columnId, columnIdA);
 
-
-
-
-    
     this._columnService.addColumn(idleColumn);
     this._columnService.addColumn(archiveColumn);
 
     this._columnService.addIdleAndArchive(idleColumn1, archiveColumn1);
 
     
-
-    /**
-     * If no archive column, add it.
-     */
-    
-    
-      
-    // this._boardService.addArchive(boardId, columnId);
      
   }
 

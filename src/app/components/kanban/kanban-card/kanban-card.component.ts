@@ -78,6 +78,9 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
 
   ngOnInit() {
     // console.log("card init" + this.columnEntityId);
+    // console.log(this._columnService.columnState[5]);
+    // console.log(this._columnService.idleColumnState[0]);
+    // console.log(this._columnService.columnState[5] == this._columnService.idleColumnState[0]);
 
     /**
      * Card status needs column to decide.  If column doesn't update, card can't keep up with the update too.  So must update column first.

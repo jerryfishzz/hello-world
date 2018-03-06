@@ -203,13 +203,16 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     this.idleColumnSubscription = this._columnService.idleColumn$.subscribe(idleColumns => {
       console.log("idleColumnState changed");
       this.idleColumns = idleColumns;
-      console.log(this.idleColumns);
+      // console.log(this.idleColumns);
     });
     // this.idleColumnBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
       
     // });
 
-    this.archiveColumnSubscription = this._columnService.archiveColumn$.subscribe(archiveColumns => this.archiveColumns = archiveColumns);
+    this.archiveColumnSubscription = this._columnService.archiveColumn$.subscribe(archiveColumns => {
+      this.archiveColumns = archiveColumns
+      // console.log(this.archiveColumns);
+    });
 
     // this.idleColumnObjFromBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
     //   console.log("idleColumnObjFromBoard000000000");

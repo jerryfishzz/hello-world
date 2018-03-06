@@ -35,7 +35,7 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
     this.show = (this.columnName !== "" ? true : false);
     // this.theColumnSubscription = this._boardService.displayingBoard$.subscribe(() => {
       // let columnId = this._boardService.displayingBoardState.
-      this.theColumn = this._columnService.getColumn(this.columnId);
+      this.theColumn = this._columnService.getColumn(this.columnId);  // This is from columnState, not from idle or archive.
       // console.log(this.theColumn);
       // console.log("column detail sub");
     // });
