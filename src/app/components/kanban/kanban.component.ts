@@ -69,6 +69,7 @@ export class KanbanComponent implements OnInit, OnDestroy {
    *              source: the source container
    */
   private onDropModel(args) {
+    // console.log(this._columnService.idleColumnState);
     let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
     let archiveColumnId: string = this._boardService.displayingBoardState.archiveColumn;
     
@@ -87,13 +88,15 @@ export class KanbanComponent implements OnInit, OnDestroy {
     this._columnService.updateColumn(cardColumnEntityId, cardId, "", "delete", "");
     this._columnService.updateColumn(destinationColumnId, cardId, "", "add", "");
 
-    if(cardColumnEntityId == idleColumnId) this._columnService.updateIdleColumn(cardColumnEntityId);
-    if(destinationColumnId == idleColumnId) this._columnService.updateIdleColumn(destinationColumnId);
+    // if(cardColumnEntityId == idleColumnId) this._columnService.updateIdleColumn(cardColumnEntityId);
+    // if(destinationColumnId == idleColumnId) this._columnService.updateIdleColumn(destinationColumnId);
 
-    if(cardColumnEntityId == archiveColumnId) this._columnService.updateArchiveColumn(cardColumnEntityId);
-    if(destinationColumnId == archiveColumnId) this._columnService.updateArchiveColumn(destinationColumnId);
+    // if(cardColumnEntityId == archiveColumnId) this._columnService.updateArchiveColumn(cardColumnEntityId);
+    // if(destinationColumnId == archiveColumnId) this._columnService.updateArchiveColumn(destinationColumnId);
 
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId, false);
+
+    console.log(this._columnService.idleColumnState);
   }
 
 

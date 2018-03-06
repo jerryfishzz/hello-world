@@ -79,11 +79,21 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
     let archiveColumn: IColumn = columnFactoryA.generateGenericColumn(columnIdA, columnNameA, columnEntityIdA, cardOnlyA, groupColumnA, directCardsA, subColumnsA, boardId, boardEntityTypeA);
     
-    
+    let idleColumn1: IColumn = Object.assign({}, idleColumn);
+    let archiveColumn1: IColumn = Object.assign({}, archiveColumn);
 
     this._boardService.addIdleAndArchive(boardId, columnId, columnIdA);
-    this._columnService.addIdleAndArchive(idleColumn, archiveColumn);
-    // this._columnService.addColumn(archiveColumn);
+
+
+
+
+    
+    this._columnService.addColumn(idleColumn);
+    this._columnService.addColumn(archiveColumn);
+
+    this._columnService.addIdleAndArchive(idleColumn1, archiveColumn1);
+
+    
 
     /**
      * If no archive column, add it.

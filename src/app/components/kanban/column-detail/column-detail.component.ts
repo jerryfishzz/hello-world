@@ -18,7 +18,7 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
   show: boolean;
 
   theColumn: IColumn;
-  theColumnSubscription: Subscription;
+  // theColumnSubscription: Subscription;
 
   // private iterableDiffer: any;
 
@@ -30,18 +30,19 @@ export class ColumnDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("column detail init");
+    // console.log("column detail init");
     this.newName = this.columnName;
     this.show = (this.columnName !== "" ? true : false);
-    this.theColumnSubscription = this._boardService.displayingBoard$.subscribe(() => {
+    // this.theColumnSubscription = this._boardService.displayingBoard$.subscribe(() => {
       // let columnId = this._boardService.displayingBoardState.
       this.theColumn = this._columnService.getColumn(this.columnId);
       // console.log(this.theColumn);
-    });
+      // console.log("column detail sub");
+    // });
   }
 
   ngOnDestroy() {
-    this.theColumnSubscription.unsubscribe();
+    // this.theColumnSubscription.unsubscribe();
   }
 
 }

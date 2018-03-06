@@ -358,10 +358,12 @@ export class ColumnService {
     // let columnId: string = cardsForColumn[0] ? cardsForColumn[0].columnEntityId : "";
     
     /**
-     * Condition 1: changes will happen in two columns: drop-in and drag-out.  We only care about drop-in because we need to update the order after dropping.  In drag-out, no order issues.
+     * Condition 1: changes always happen in two columns: drop-in and drag-out.  But we only care about the drop-in column because we need to update its order after dropping.  In drag-out, no order issues.
      * Condition 2: Only one card in an array has no order issues.
      */
     if(columnEntityId != currentDropColumnId || cardsForColumn.length === 1) return;
+
+    console.log("updateDC happening");
 
     // New order array
     let newDirectCards: string[] = cardsForColumn.map(card => {
@@ -399,11 +401,9 @@ export class ColumnService {
   }
 
   addIdleAndArchive(idleColumn: IColumn, archiveColumn: IColumn): void {
-    this.columnState.push(idleColumn);
-    this.columnState.push(archiveColumn);
-    this._columnSource.next(this.columnState);
-
-    // this.updateColumn(newColumn.columnEntityId, "", newColumn.columnId, "", "add");
+    // this.columnState.push(idleColumn);
+    // this.columnState.push(archiveColumn);
+    // this._columnSource.next(this.columnState);
 
     this.idleColumnState.push(idleColumn);
     this._idleColumnSource.next(this.idleColumnState);
@@ -436,7 +436,7 @@ export class ColumnService {
       item = archiveColumn;
       return item;
     });
-    this._archiveColumnSource.next(this.idleColumnState);
+    this._archiveColumnSource.next(this.archiveColumnState);
   }
 
 }

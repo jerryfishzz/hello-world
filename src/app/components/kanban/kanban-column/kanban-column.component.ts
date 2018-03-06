@@ -188,7 +188,7 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   
 
   ngOnInit() {
-    console.log("column init");
+    // console.log("column init");
     // console.log(this.directColumns);
 
     this.directColumnsSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
@@ -200,7 +200,11 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     });
 
 
-    this.idleColumnSubscription = this._columnService.idleColumn$.subscribe(idleColumns => this.idleColumns = idleColumns);
+    this.idleColumnSubscription = this._columnService.idleColumn$.subscribe(idleColumns => {
+      console.log("idleColumnState changed");
+      this.idleColumns = idleColumns;
+      console.log(this.idleColumns);
+    });
     // this.idleColumnBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
       
     // });
