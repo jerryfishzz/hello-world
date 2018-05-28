@@ -12,7 +12,6 @@ export class BoardFactory {
     _entityId: string,
     ): IBoard {
     var returnValue: IBoard;
-    console.log("factory");
 
     returnValue = {
       boardId: _boardId,

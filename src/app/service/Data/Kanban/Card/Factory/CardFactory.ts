@@ -14,7 +14,6 @@ export class CardFactory {
   ): ICard
   {
     var returnValue: ICard;
-    console.log("factory");
 
     returnValue = {
       cardId: _cardId,

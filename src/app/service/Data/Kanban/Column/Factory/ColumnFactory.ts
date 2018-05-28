@@ -14,7 +14,6 @@ export class ColumnFactory {
     _boardEntityType: string
     ): IColumn {
     var returnValue: IColumn;
-    console.log("factory");
 
     returnValue = {
       columnId: _columnId,

@@ -6,9 +6,6 @@ export class KanbanService {
 
   currentDropColumnState: string = "";
 
-  // private _currentDropColumnSource = new BehaviorSubject<string>(this.currentDropColumnState);
-  // currentDropColumn$ = this._currentDropColumnSource.asObservable();
-
   constructor() { }
 
   generateId(): string {
@@ -17,7 +14,6 @@ export class KanbanService {
 
   updateCurrentDropColumn(columnId: string): void {
     this.currentDropColumnState = columnId;
-    // this._currentDropColumnSource.next(columnId);
   }
 
 }

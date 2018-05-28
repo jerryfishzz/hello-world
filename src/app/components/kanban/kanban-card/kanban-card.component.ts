@@ -14,8 +14,6 @@ import { KanbanService } from '../../../service/Data/Kanban/kanban.service';
   styleUrls: ['./kanban-card.component.css']
 })
 export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
-
-  // cards: ICard[] = [];  // The array of all cards.  
   cardSubscription: Subscription;
 
   columnsForCardsToMove: IColumn[];  // The array of columns that cards can move to.  Move button for test only.
@@ -24,7 +22,6 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
   newComments: string = "";
 
   cardsForColumn: ICard[];
-  // cardsForColumnSubscription: Subscription;
 
   private iterableDiffer: any;
 
@@ -59,35 +56,11 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId);
   }
 
-  // showCards(): void {
-  //   console.log(this.cardsForColumn);
-  // }
-
-  // initializeCardsForColumn(): void {
-  //   this.cardsForColumn = [];
-  //   console.log("init");
-  //   console.log(this.columnEntityId);
-  //   let theColumn: IColumn = this._columnService.getColumn(this.columnEntityId);
-  //   let directCards: string[] = theColumn.directCards;
-  //   if(directCards.length) {
-  //     for(let directCard of directCards) {
-  //       this.cardsForColumn.push(this.cards.filter(card => card.cardId == directCard)[0]);
-  //     }
-  //   }
-  // }
-
   ngOnInit() {
-    // console.log("card init" + this.columnEntityId);
-    // console.log(this._columnService.columnState[5]);
-    // console.log(this._columnService.idleColumnState[0]);
-    // console.log(this._columnService.columnState[5] == this._columnService.idleColumnState[0]);
-
     /**
      * Card status needs column to decide.  If column doesn't update, card can't keep up with the update too.  So must update column first.
      */
     this.cardSubscription = this._cardService.cards$.subscribe(cards => {
-      // this.cards = cards;  
-
       this.cardsForColumn = [];
 
       /**
@@ -99,11 +72,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
       if(directCards.length) {
         for(let directCard of directCards) {
           this.cardsForColumn.push(cards.filter(card => card.cardId == directCard)[0]);
-          // console.log("push");
-          // console.log(this.cardsForColumn);
         }
-        // console.log("still in push");
-        // console.log(this.columnEntityId);
       }
     });
 
@@ -127,12 +96,7 @@ export class KanbanCardComponent implements OnInit, OnDestroy, DoCheck {
      */
     let changes = this.iterableDiffer.diff(this.cardsForColumn);
     if (changes) {
-      // console.log('Changes detected!');
-      // console.log(this.cardsForColumn);
-
       let currentDropColumnId: string = this._kanbanService.currentDropColumnState;
-      // console.log(currentDropColumnId);
-      // console.log(this.columnEntityId);
 
       this._columnService.updateDirectCards(this.columnEntityId, this.cardsForColumn, currentDropColumnId);
 

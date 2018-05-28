@@ -79,8 +79,6 @@ export class ColumnService {
   private _archiveColumnSource = new BehaviorSubject<IColumn[]>(this.archiveColumnState);
   archiveColumn$ = this._archiveColumnSource.asObservable();
 
-
-  
   constructor(private _boardService: BoardService) { }
 
   getColumn(id: string): IColumn {
@@ -154,7 +152,6 @@ export class ColumnService {
     this._columnSource.next(this.columnState);
   }
 
-
   /**
    * Clear column's directCards
    * @param columnId  The column's id
@@ -172,16 +169,11 @@ export class ColumnService {
     this._columnSource.next(this.columnState);
   }
 
-
-
-
-
   /**
    * Change the initial column to card only
    * @param id  Column id
    */
   simplifyColumn(id: string): void {
-    console.log("column-simplified service: " + id);
     this.columnState = this.columnState.map(item => {
       if (item.columnId !== id) {
         return item;
@@ -193,7 +185,6 @@ export class ColumnService {
     });
     this._columnSource.next(this.columnState);
   }
-
 
   complicateColumn(id: string): void {
     console.log("column-complicated service: " + id);
@@ -208,9 +199,6 @@ export class ColumnService {
     });
     this._columnSource.next(this.columnState);
   }
-
-
-
 
   /**
    * Move columns between columns
@@ -355,15 +343,12 @@ export class ColumnService {
   }
 
   updateDirectCards(columnEntityId: string, cardsForColumn: ICard[], currentDropColumnId: string): void {
-    // let columnId: string = cardsForColumn[0] ? cardsForColumn[0].columnEntityId : "";
     
     /**
      * Condition 1: changes always happen in two columns: drop-in and drag-out.  But we only care about the drop-in column because we need to update its order after dropping.  In drag-out, no order issues.
      * Condition 2: Only one card in an array has no order issues.
      */
     if(columnEntityId != currentDropColumnId || cardsForColumn.length === 1) return;
-
-    console.log("updateDC happening");
 
     // New order array
     let newDirectCards: string[] = cardsForColumn.map(card => {
@@ -383,10 +368,6 @@ export class ColumnService {
 
     // This line is not necessary in the working environment.  Here is only for showing the result of updated directCards value.  When this function is invoked, dragula is under control the page looking, not observable.  If no useful contents need to update, just comment off this line.
     this._columnSource.next(this.columnState);
-
-    // console.log(this.columnState);
-    // console.log(this.idleColumnState);
-
   }
 
   adjustSubOrder(columnId: string, newSubOrder: string[]): void {
@@ -438,5 +419,4 @@ export class ColumnService {
     });
     this._archiveColumnSource.next(this.archiveColumnState);
   }
-
 }

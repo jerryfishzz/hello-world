@@ -44,7 +44,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   showBoard(boardId: string): void {
     let isIdleAndArchiveThere: boolean = this.isIdleAndArchiveThere(boardId);
-    // let isArchiveThere: boolean = this.isArchiveThere(boardId);
 
     if(isIdleAndArchiveThere) {
       this._boardService.updateDisplayingBoard(boardId);
@@ -65,7 +64,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     let boardEntityType: string = this._boardService.getBoard(boardId).boardType;
 
     let idleColumn: IColumn = columnFactory.generateGenericColumn(columnId, columnName, columnEntityId, cardOnly, groupColumn, directCards, subColumns, boardId, boardEntityType);
-
     
     let columnFactoryA: ColumnFactory = new ColumnFactory();
     let columnIdA: string = this._kanbanService.generateId();
@@ -83,16 +81,12 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     
     let archiveColumn1: IColumn = JSON.parse(JSON.stringify(archiveColumn));
     
-
     this._boardService.addIdleAndArchive(boardId, columnId, columnIdA);
 
     this._columnService.addColumn(idleColumn);
     this._columnService.addColumn(archiveColumn);
 
     this._columnService.addIdleAndArchive(idleColumn1, archiveColumn1);
-
-    
-     
   }
 
   isIdleAndArchiveThere(boardId: string): boolean {
@@ -104,13 +98,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
     return status;
   }
-
-  // isArchiveThere(boardId: string): boolean {
-  //   if (this._boardService.getBoard(boardId).archiveColumn === "") {
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   deleteBoard(): void {
     this._cardService.deleteCardsByBoardEntityId(this.displayingBoard.boardId);

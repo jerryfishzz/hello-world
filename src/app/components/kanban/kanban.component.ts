@@ -21,7 +21,6 @@ export class KanbanComponent implements OnInit, OnDestroy {
      * Card drag and drop
      */
     _dragulaService.dropModel.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      // console.log(`drop model: ${value[0]}`);
       this.onDropModel(value.slice(1));
     });
 
@@ -30,8 +29,6 @@ export class KanbanComponent implements OnInit, OnDestroy {
       revertOnSpill: true
     });
 
-
-
     /**
      * Column drag and drop
      */
@@ -39,24 +36,18 @@ export class KanbanComponent implements OnInit, OnDestroy {
 
       // When outer columns try to drop in inner columns, it must be simple column
       accepts: function (el, target, source, sibling) {
-          // console.log(target.classList);
-          // console.log(el.classList);
           if (target.classList.contains('inter-draggable')) {
               return el.classList.contains('inter-draggable');
           }
           return true;
       },
       moves: function (el, source, handle) {
-        // console.log(el.classList);
-        // console.log(source.classList);
-        // console.log(handle.className);
         return handle.className;  // when not existing, the handle is on cards.
       },
       direction: 'horizontal'  // Set the drag and drop by the direction of horizon
     });  
 
     _dragulaService.drop.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
       this.onDrop(value.slice(1));
     });
   }
@@ -69,15 +60,10 @@ export class KanbanComponent implements OnInit, OnDestroy {
    *              source: the source container
    */
   private onDropModel(args) {
-    // console.log(this._columnService.idleColumnState);
     let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
     let archiveColumnId: string = this._boardService.displayingBoardState.archiveColumn;
     
     let [el, target, source] = args;
-    // console.log("drop action");
-    // console.log(el.getAttribute('itemId'));
-    // console.log(source.getAttribute('itemId'));
-    // console.log(target.getAttribute('itemId'));
 
     let cardId = el.getAttribute('itemId');
     let cardColumnEntityId = source.getAttribute('itemId');
@@ -95,54 +81,33 @@ export class KanbanComponent implements OnInit, OnDestroy {
     if(destinationColumnId == archiveColumnId) this._columnService.updateArchiveColumn(destinationColumnId);
 
     this._cardService.moveToOtherColumn(cardId, cardColumnEntityId, destinationColumnId, false);
-
-    console.log(this._columnService.idleColumnState);
-    console.log(this._columnService.archiveColumnState);
   }
 
-
-
   private onDrop(args) {
-    // console.log(args);
     let [el, target, source, sibling] = args;
-    // console.log(target);
-    // console.log(target.classList);
-    // console.log(el);
 
     let columnId = el.getAttribute('itemId');
     let sourceId = source.getAttribute('itemId');
     let targetId = target.getAttribute('itemId');
-    // console.log(targetId);
     let children = target.children;
-    // console.log(children.length);
 
     let idleId: string = this._boardService.displayingBoardState.idleColumn;
     let archiveId: string = this._boardService.displayingBoardState.archiveColumn;
-
-
+    
     let orderOfChildren: string[] = [];
     for(let child of children) {
       let childId = child.getAttribute('itemId');
       if(childId == idleId || childId == archiveId) continue;
       orderOfChildren.push(child.getAttribute('itemId'));
     }
-    console.log("in drop, not drop model");
-    console.log(orderOfChildren);
-
-    // console.log(target.classList.contains('parentDraggable'));
-    // console.log(source.classList.contains('parentDraggable'));
-
     
     /**
      * Outer column order changes
      */
     if(target.classList.contains('parentDraggable')) {
-      console.log(1);
       this._boardService.adjustDirectSubOrder(targetId, orderOfChildren);
 
       if(source.classList.contains('childDraggable')) {
-        console.log(2);
-
         this._columnService.freeColumn(columnId, sourceId, true);  // Can change the last arg to false depending on the real working environment requirement
       }
     } 
@@ -151,14 +116,10 @@ export class KanbanComponent implements OnInit, OnDestroy {
      * Inner column order changes 
      */
     if(target.classList.contains('childDraggable')) {
-      console.log(3);
-
       /**
        * Outer column becomes inner column 
        */
       if(source.classList.contains('parentDraggable')) {
-        console.log(4);
-
         let boardId = source.getAttribute('itemId');
         this._boardService.updateBoard(boardId, columnId, "delete", true);  // Can change the last arg to false depending on the real working environment requirement
 
@@ -169,21 +130,15 @@ export class KanbanComponent implements OnInit, OnDestroy {
       this._columnService.adjustSubOrder(targetId, orderOfChildren);
 
       if(source.classList.contains('parentDraggable')) {
-        console.log(5);
-
         this._columnService.moveToOtherColumn(columnId, "", targetId, true, true);  // Can change the second last arg to false depending on the real working environment requirement
       }
 
       // child-to-child move in different columns
       if(source.classList.contains('childDraggable') && (sourceId !== targetId)) {
-        console.log(6);
-
         this._columnService.moveToOtherColumn(columnId, sourceId, targetId, true, true);  // Can change the second last arg to false depending on the real working environment requirement
       }
       
     }
-
-    console.log(7);
   }
 
   ngOnInit() {
@@ -192,5 +147,4 @@ export class KanbanComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
   }
-
 }

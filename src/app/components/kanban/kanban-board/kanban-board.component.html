@@ -9,12 +9,9 @@
     </ng-container>
   </div>
 
-
   <ng-container *ngIf="displayingBoard">
     <board-detail [displayingBoard]="displayingBoard"></board-detail>
     
-    <!-- Follow the change of displayingBoard -->
-    <!-- <kanban-column class="board-content" [boardEntityId]="displayingBoard.boardId" [idleColumn]="displayingBoard.idleColumn" [archiveColumn]="displayingBoard.archiveColumn"></kanban-column> -->
     <kanban-column class="board-content" [boardEntityId]="displayingBoard.boardId"></kanban-column>
 
     <button (click)="deleteBoard()">Delete</button>

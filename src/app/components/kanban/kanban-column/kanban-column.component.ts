@@ -27,36 +27,16 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
   displayingBoardSubscription: Subscription;
   private destroy$ = new Subject();
   
-  @Input() boardEntityId: string;  // Parent board id (displaying board id)
-  // @Input() idleColumn: string;  // Idle column id of the parent board 
-  // @Input() archiveColumn: string;  // Archive column id of the parent board 
+  @Input() boardEntityId: string;  // Parent board id (displaying board id) 
 
   directColumns: string[];  
   directColumnsSubscription: Subscription;
 
-  
-  
-  
   idleColumns: IColumn[];
   idleColumnSubscription: Subscription;
-  // idleColumnBoardSubscription: Subscription;
-
 
   archiveColumns: IColumn[];
   archiveColumnSubscription: Subscription;
-  // archiveColumnBoardSubscription: Subscription;
-
-
-
-
-
-  // idleColumnObj: IColumn;
-  // idleColumnObjFromBoardSubscription: Subscription;
-  // idleColumnObjFromColumnSubscription: Subscription;
-
-  // archiveColumnObj: IColumn;
-  // archiveColumnObjFromBoardSubscription: Subscription;
-  // archiveColumnObjFromColumnSubscription: Subscription;
 
   constructor(private _columnService: ColumnService, private _kanbanService: KanbanService, private _boardService: BoardService, private _cardService: CardService, private _dragulaService: DragulaService) { }
 
@@ -165,13 +145,9 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
     if (directCardsLength) {
       let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
       let cardsToIdle: ICard[] = this._cardService.cardState.filter(card => card.columnEntityId === columnId);
-      // console.log("to idle");
-      // console.log(cardsToIdle);
 
       let n = 0;
       for (let cardToIdle of cardsToIdle) {
-        // console.log(++n);
-        // console.log(cardToIdle);
         this._columnService.updateColumn(idleColumnId, cardToIdle.cardId, "", "add", "");
         this._columnService.updateIdleColumn(idleColumnId);
         this._cardService.moveToIdle(cardToIdle.cardId, idleColumnId);
@@ -179,18 +155,11 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
 
     }
 
-    // console.log("cards moved");
-
     this._columnService.deleteColumn(columnId);  // Delete the column
     
   }
 
-  
-
   ngOnInit() {
-    // console.log("column init");
-    // console.log(this.directColumns);
-
     this.directColumnsSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
       if(displayingBoard) {
         this.directColumns = displayingBoard.directColumns;
@@ -199,46 +168,13 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
       }
     });
 
-
     this.idleColumnSubscription = this._columnService.idleColumn$.subscribe(idleColumns => {
-      console.log("idleColumnState changed");
       this.idleColumns = idleColumns;
-      // console.log(this.idleColumns);
     });
-    // this.idleColumnBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
-      
-    // });
 
     this.archiveColumnSubscription = this._columnService.archiveColumn$.subscribe(archiveColumns => {
-      this.archiveColumns = archiveColumns
-      // console.log(this.archiveColumns);
+      this.archiveColumns = archiveColumns;
     });
-
-    // this.idleColumnObjFromBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
-    //   console.log("idleColumnObjFromBoard000000000");
-    //   let idleColumnId: string = displayingBoard.idleColumn;
-    //   // console.log("idleColumnId: " + idleColumnId);
-    //   this.idleColumnObj = this._columnService.getColumn(idleColumnId);
-    //   // console.log(this.idleColumnObj);
-    // });
-    // this.archiveColumnObjFromBoardSubscription = this._boardService.displayingBoard$.subscribe(displayingBoard => {
-    //   // console.log("archiveColumnObjFromBoard");
-    //   let archiveColumnId: string = displayingBoard.archiveColumn;
-    //   this.archiveColumnObj = this._columnService.getColumn(archiveColumnId);
-    // });
-
-
-    // this.idleColumnObjFromColumnSubscription = this._columnService.columns$.subscribe(() => {
-    //   console.log("idleColumnObjFromColumn1111111");
-    //   let idleColumnId: string = this._boardService.displayingBoardState.idleColumn;
-    //   this.idleColumnObj = this._columnService.getColumn(idleColumnId);
-    // });
-    // this.archiveColumnObjFromColumnSubscription = this._columnService.columns$.subscribe(() => {
-    //   // console.log("archiveColumnObjFromColumn");
-    //   let archiveColumnId: string = this._boardService.displayingBoardState.archiveColumn;
-    //   this.archiveColumnObj = this._columnService.getColumn(archiveColumnId);
-    // });
-    
 
     this.columnSubscription = this._columnService.columns$.subscribe(columns => {
       this.columns = columns;
@@ -263,8 +199,6 @@ export class KanbanColumnComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.directColumnsSubscription.unsubscribe();
-    // this.idleColumnObjFromBoardSubscription.unsubscribe();
-    // this.archiveColumnObjFromBoardSubscription.unsubscribe();
 
     this.idleColumnSubscription.unsubscribe();
     this.archiveColumnSubscription.unsubscribe();

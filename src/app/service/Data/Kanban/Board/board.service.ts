@@ -30,14 +30,9 @@ export class BoardService {
   private _boardSource = new BehaviorSubject<IBoard[]>(this.boardState);
   boards$ = this._boardSource.asObservable();
 
-
-
   displayingBoardState: IBoard = null;  // No displaying board when page is just load 
   private _displayingBoardSource = new BehaviorSubject<IBoard>(this.displayingBoardState);
   displayingBoard$ = this._displayingBoardSource.asObservable();  // Seems to only use it when switching boards
-
-  // _cardsForColumnSource = new Subject();
-  // cardsForColumn$ = this._cardsForColumnSource.asObservable();
 
   constructor() { }
 
@@ -69,27 +64,7 @@ export class BoardService {
     this._boardSource.next(this.boardState);
 
     this.updateDisplayingBoard(boardId);
-    
-    // this.displayingBoardState.idleColumn = idleColumnId;
-    // this._displayingBoardSource.next(this.displayingBoardState);
   }
-
-  // addArchive(boardId: string, archiveColumnId: string): void {
-  //   this.boardState = this.boardState.map(item => {
-  //     if (item.boardId !== boardId) {
-  //       return item;
-  //     }
-
-  //     item.archiveColumn = archiveColumnId;
-  //     return item;
-  //   });
-  //   this._boardSource.next(this.boardState);
-
-  //   this.updateDisplayingBoard(boardId);
-
-  //   // this.displayingBoardState.archiveColumn = archiveColumnId;
-  //   // this._displayingBoardSource.next(this.displayingBoardState);
-  // }
 
   getBoard(id: string): IBoard {
     return this.boardState.filter(board => id === board.boardId)[0];
@@ -132,11 +107,6 @@ export class BoardService {
     this.displayingBoardState = null;
     this._displayingBoardSource.next(this.displayingBoardState);
   }
-
-  // initializeCardsForColumn(): void {
-  //   this._cardsForColumnSource.next();
-  // }
-
 
   adjustDirectSubOrder(boardId: string, newSubOrder: string[]): void {
     this.boardState = this.boardState.map(item => {
