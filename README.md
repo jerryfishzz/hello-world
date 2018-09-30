@@ -16,5 +16,5 @@ Run `npm start`.
 
 ## Existing bug
 
-Sometimes the drag & drop can't work smoothly.  In this case, Ctrl + C to stop the current project. Switch to other
- branch and start it, then switch back to Kanban branch directly.
+Sometimes the drag & drop can't work smoothly.  In this case, `Ctrl + C` to stop the current project. Switch to branch
+ **dragular** and start it, then switch back to **Kanban** branch directly.
